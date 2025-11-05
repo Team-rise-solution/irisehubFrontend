@@ -14,12 +14,10 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
-    const user = authAPI.getCurrentUser();
-    if (user) {
-      navigate('/admin');
-    }
-  }, [navigate]);
+    // Don't auto-redirect - force manual login every time
+    // Clear session on login page load for security
+    authAPI.logout();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({

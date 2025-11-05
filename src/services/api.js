@@ -55,10 +55,41 @@ export const authAPI = {
   },
   getCurrentUser: () => {
     const user = localStorage.getItem('adminUser');
-    return user ? JSON.parse(user) : null;
+    if (!user) return null;
+    
+    try {
+      const parsedUser = JSON.parse(user);
+      // SECURITY: Remove password field completely
+      const { password, ...userWithoutPassword } = parsedUser;
+      
+      // SECURITY: If name contains password-like patterns, clean it
+      if (userWithoutPassword.name && (
+        userWithoutPassword.name.includes('@') || 
+        userWithoutPassword.name.includes('2025')
+      )) {
+        // Use email username part if available
+        if (userWithoutPassword.email) {
+          userWithoutPassword.name = userWithoutPassword.email.split('@')[0];
+        } else {
+          userWithoutPassword.name = 'Admin';
+        }
+        
+        // Update localStorage with cleaned data
+        localStorage.setItem('adminUser', JSON.stringify(userWithoutPassword));
+      }
+      
+      return userWithoutPassword;
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+      return null;
+    }
   },
   setToken: (token) => localStorage.setItem('adminToken', token),
-  setUser: (user) => localStorage.setItem('adminUser', JSON.stringify(user)),
+  setUser: (user) => {
+    // Remove password field if it exists (security: never store password)
+    const { password, ...userWithoutPassword } = user;
+    localStorage.setItem('adminUser', JSON.stringify(userWithoutPassword));
+  },
 };
 
 

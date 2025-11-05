@@ -28,11 +28,42 @@ const AdminLayout = () => {
   const { hideSidebar } = useSidebar();
 
   useEffect(() => {
+    // Force login every time - check token first
+    const token = localStorage.getItem('adminToken');
     const currentUser = authAPI.getCurrentUser();
-    if (!currentUser) {
+    
+    // If no token or user, redirect to login
+    if (!token || !currentUser) {
+      authAPI.logout(); // Clear any stale data
       navigate('/admin/login');
     } else {
-      setUser(currentUser);
+      // SECURITY: Remove password field completely
+      const { password, ...userWithoutPassword } = currentUser;
+      
+      // SECURITY: If name looks like a password (contains @ or special chars), use email or default
+      let displayName = userWithoutPassword.name;
+      if (!displayName || displayName.includes('@') || displayName.includes('2025')) {
+        // Use email if available (without @domain), or default to 'Admin'
+        if (userWithoutPassword.email) {
+          displayName = userWithoutPassword.email.split('@')[0] || 'Admin';
+        } else {
+          displayName = 'Admin';
+        }
+      }
+      
+      setUser({
+        ...userWithoutPassword,
+        name: displayName,
+        displayName: displayName // Store safe display name
+      });
+      
+      // Update localStorage with clean data
+      if (password || userWithoutPassword.name !== displayName) {
+        authAPI.setUser({
+          ...userWithoutPassword,
+          name: displayName
+        });
+      }
     }
   }, [navigate]);
 
@@ -78,7 +109,7 @@ const AdminLayout = () => {
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">iR</span>
             </div>
-            <span className="text-xl font-bold text-gray-800">iRiseHup</span>
+            <span className="text-xl font-bold text-gray-800">irisehub</span>
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
