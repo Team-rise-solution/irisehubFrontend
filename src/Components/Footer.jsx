@@ -20,7 +20,7 @@ function Footer (){
                     <div className="md:w-[220px] ml-10 w-[150px] h-[120px] md:h-[190px]  bg-iriseColor/10 skew-x-[-40deg]"></div>
                     <div className="w-[300px] absolute top-6 ml-5">
                         <Link to="/"><img className="w-[200px]" src={IRiseHupLogo} alt="" /></Link>
-                        <p className="text-[14px] md:text-[16px] lg:text-[14px] mt-5 ml-10"> Bulahubey, Mogadishu, Somalia. <br />BBS Mall, Floor 1, Nairobi, Kenya. </p>
+                        <p className="text-[14px] md:text-[16px] lg:text-[14px] mt-5 ml-10"> KM6, Opp. Pizza House, Hodan. Mogadishu, Somalia</p>
                     </div>
                     <div className="flex gap-5 items-center lg:mt-0 mt-16 lg:absolute bottom-0">
                         {socialMediaLinks.map((social, i) => {

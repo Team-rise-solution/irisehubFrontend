@@ -120,11 +120,12 @@ function Header() {
                 { isHoverItem === "ecosystem" && (
                 <div className={`w-[210px] py-4 px-3 transition-transform duration-10 bg-white absolute top-full left-0 rounded-md z-30 shadow-md shadow-black`}>
                 <ul className="leading-[35px] text-[16px] font-normal text-black">
-                    <Link to="/riseAcademy"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Rise Academy </li></Link>
+                    <Link to="https://www.riseacademy.so/"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Rise Academy </li></Link>
+                    <Link to="https://minbarspace.com/"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Minbar </li></Link>
+                    <Link to="https://mts2024.com/"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Mogadishu Tech Summit </li></Link>
                     {/* <Link to="#"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Rise Solution </li></Link>
-                    <Link to="#"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Minbar </li></Link>
                     <Link to="#"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Kobciye </li></Link>
-                    <Link to="#"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Mogadishu Tech Summit </li></Link> */}
+                    */}
                 </ul>
                 </div>
                 )}
