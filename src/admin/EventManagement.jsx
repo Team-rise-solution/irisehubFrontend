@@ -41,6 +41,8 @@ const EventManagement = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [viewingEvent, setViewingEvent] = useState(null);
 
   useEffect(() => {
     fetchEvents();
@@ -211,11 +213,17 @@ const EventManagement = () => {
     }
   };
 
-  const handleView = (event) => {
-    if (event.type === 'Coming Soon') {
-      window.open(`/upcoming-events/${event._id}`, '_blank');
-    } else {
-      window.open(`/past-events/${event._id}`, '_blank');
+  const handleView = async (event) => {
+    try {
+      // Fetch full event details
+      const response = await eventAPI.getById(event._id);
+      if (response?.data?.data) {
+        setViewingEvent(response.data.data);
+        setShowViewModal(true);
+      }
+    } catch (error) {
+      console.error('Error fetching event details:', error);
+      toast.error('Failed to load event details');
     }
   };
 
@@ -576,6 +584,147 @@ const EventManagement = () => {
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* View Modal */}
+        {showViewModal && viewingEvent && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              {/* Modal Header */}
+              <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">View Event</h2>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => handleEdit(viewingEvent)}
+                    className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors flex items-center"
+                    title="Edit"
+                  >
+                    <FiEdit3 className="w-4 h-4 mr-2" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowViewModal(false);
+                      setViewingEvent(null);
+                    }}
+                    className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                    title="Close"
+                  >
+                    <FiXCircle className="w-6 h-6" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6">
+                {/* Image */}
+                {viewingEvent.image && (
+                  <div className="mb-6">
+                    <img
+                      src={Array.isArray(viewingEvent.image) ? viewingEvent.image[0] : viewingEvent.image}
+                      alt={viewingEvent.title}
+                      className="w-full h-64 object-cover rounded-lg"
+                    />
+                  </div>
+                )}
+
+                {/* Status Badge */}
+                <div className="mb-4 flex items-center space-x-2">
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                    viewingEvent.isPublished 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {viewingEvent.isPublished ? 'Published' : 'Draft'}
+                  </span>
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                    viewingEvent.type === 'Coming Soon' 
+                      ? 'bg-blue-100 text-blue-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {viewingEvent.type || 'Coming Soon'}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                  {viewingEvent.title}
+                </h1>
+
+                {/* Meta Information */}
+                <div className="flex items-center space-x-4 text-sm text-gray-500 mb-6">
+                  <div className="flex items-center">
+                    <FiUser className="w-4 h-4 mr-2" />
+                    <span>{viewingEvent.author || 'Admin'}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FiCalendar className="w-4 h-4 mr-2" />
+                    <span>{new Date(viewingEvent.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FiEye className="w-4 h-4 mr-2" />
+                    <span>{viewingEvent.views || 0} views</span>
+                  </div>
+                </div>
+
+                {/* Event Details */}
+                {(viewingEvent.eventDate || viewingEvent.location || viewingEvent.eventTime) && (
+                  <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                    <h3 className="text-sm font-semibold text-gray-700 mb-3">Event Details</h3>
+                    <div className="space-y-2">
+                      {viewingEvent.eventDate && (
+                        <div className="flex items-center text-gray-700">
+                          <FiClock className="w-4 h-4 mr-2 text-gray-500" />
+                          <span>{formatDate(viewingEvent.eventDate)}</span>
+                          {viewingEvent.eventTime && (
+                            <span className="ml-2">at {viewingEvent.eventTime}</span>
+                          )}
+                        </div>
+                      )}
+                      {viewingEvent.location && (
+                        <div className="flex items-center text-gray-700">
+                          <FiMapPin className="w-4 h-4 mr-2 text-gray-500" />
+                          <span>{viewingEvent.location}</span>
+                        </div>
+                      )}
+                      {viewingEvent.youtubeLink && (
+                        <div className="flex items-center text-gray-700">
+                          <FiYoutube className="w-4 h-4 mr-2 text-gray-500" />
+                          <a 
+                            href={viewingEvent.youtubeLink} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                          >
+                            Watch on YouTube
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* Short Description */}
+                {viewingEvent.shortDescription && (
+                  <div className="mb-6">
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      {viewingEvent.shortDescription}
+                    </p>
+                  </div>
+                )}
+
+                {/* Full Description */}
+                {viewingEvent.fullDescription && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">Full Description</h3>
+                    <div className="prose max-w-none text-gray-700 whitespace-pre-wrap">
+                      {viewingEvent.fullDescription}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>

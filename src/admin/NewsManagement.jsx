@@ -11,7 +11,9 @@ import {
   FiTrash2,
   FiEye,
   FiPlus,
-  FiBookOpen
+  FiBookOpen,
+  FiUser,
+  FiCalendar
 } from 'react-icons/fi';
 import { newsAPI } from '../services/api';
 
@@ -32,6 +34,8 @@ const NewsManagement = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [viewingNews, setViewingNews] = useState(null);
 
   useEffect(() => {
     fetchNews();
@@ -187,8 +191,18 @@ const NewsManagement = () => {
     }
   };
 
-  const handleView = (news) => {
-    window.open(`/news/${news._id}`, '_blank');
+  const handleView = async (news) => {
+    try {
+      // Fetch full news details
+      const response = await newsAPI.getById(news._id);
+      if (response?.data?.data) {
+        setViewingNews(response.data.data);
+        setShowViewModal(true);
+      }
+    } catch (error) {
+      console.error('Error fetching news details:', error);
+      toast.error('Failed to load news details');
+    }
   };
 
   const NewsCard = ({ news }) => (
@@ -438,6 +452,103 @@ const NewsManagement = () => {
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* View Modal */}
+        {showViewModal && viewingNews && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              {/* Modal Header */}
+              <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">View News</h2>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => handleEdit(viewingNews)}
+                    className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors flex items-center"
+                    title="Edit"
+                  >
+                    <FiEdit3 className="w-4 h-4 mr-2" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowViewModal(false);
+                      setViewingNews(null);
+                    }}
+                    className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
+                    title="Close"
+                  >
+                    <FiXCircle className="w-6 h-6" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Modal Content */}
+              <div className="p-6">
+                {/* Image */}
+                {viewingNews.image && (
+                  <div className="mb-6">
+                    <img
+                      src={Array.isArray(viewingNews.image) ? viewingNews.image[0] : viewingNews.image}
+                      alt={viewingNews.title}
+                      className="w-full h-64 object-cover rounded-lg"
+                    />
+                  </div>
+                )}
+
+                {/* Status Badge */}
+                <div className="mb-4">
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full ${
+                    viewingNews.isPublished 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {viewingNews.isPublished ? 'Published' : 'Draft'}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                  {viewingNews.title}
+                </h1>
+
+                {/* Meta Information */}
+                <div className="flex items-center space-x-4 text-sm text-gray-500 mb-6">
+                  <div className="flex items-center">
+                    <FiUser className="w-4 h-4 mr-2" />
+                    <span>{viewingNews.author || 'Admin'}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FiCalendar className="w-4 h-4 mr-2" />
+                    <span>{new Date(viewingNews.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FiEye className="w-4 h-4 mr-2" />
+                    <span>{viewingNews.views || 0} views</span>
+                  </div>
+                </div>
+
+                {/* Short Description */}
+                {viewingNews.shortDescription && (
+                  <div className="mb-6">
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                      {viewingNews.shortDescription}
+                    </p>
+                  </div>
+                )}
+
+                {/* Full Description */}
+                {viewingNews.fullDescription && (
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3">Full Content</h3>
+                    <div className="prose max-w-none text-gray-700 whitespace-pre-wrap">
+                      {viewingNews.fullDescription}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </div>
