@@ -175,6 +175,13 @@ function Header() {
               >
                 Past Events
               </Link>
+              <Link
+                to="/share-your-story"
+                className="block px-4 py-3 hover:underline pb-4"
+                onClick={() => setShowNewsEventsDropdown(false)}
+              >
+                Share Your Story
+              </Link>
               </div>
             )}
           </div>
@@ -243,6 +250,7 @@ function Header() {
               <Link to="/news"><li>News</li></Link>
               <Link to="/upcoming-events"><li>Upcoming Events</li></Link>
               <Link to="/past-events"><li>Past Events</li></Link>
+              <Link to="/share-your-story"><li>Share Your Story</li></Link>
           </ul>
 
           {/* ✅ Added social icons to mobile menu */}

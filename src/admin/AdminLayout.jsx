@@ -77,6 +77,7 @@ const AdminLayout = () => {
     { name: 'News', icon: FiFileText, path: '/admin/news' },
     { name: 'Events', icon: FiBookOpen, path: '/admin/events' },
     { name: 'Bookings', icon: FiCalendar, path: '/admin/bookings' },
+    { name: 'Stories', icon: FiFileText, path: '/admin/stories' },
     { name: 'Admins', icon: FiUsers, path: '/admin/admins' },
     { name: 'Analytics', icon: FiBarChart, path: '/admin/analytics' },
     { name: 'Settings', icon: FiSettings, path: '/admin/settings' },

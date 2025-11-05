@@ -11,6 +11,7 @@ import AddEvent from './AddEvent';
 import EventManagement from './EventManagement';
 import NewsManagement from './NewsManagement';
 import BookingsManagement from './BookingsManagement';
+import StoriesManagement from './StoriesManagement';
 import { SidebarProvider } from './SidebarContext';
 
 const AdminRoutes = () => {
@@ -25,6 +26,7 @@ const AdminRoutes = () => {
           <Route path="add-event" element={<AddEvent />} />
           <Route path="events" element={<EventManagement />} />
           <Route path="bookings" element={<BookingsManagement />} />
+          <Route path="stories" element={<StoriesManagement />} />
           <Route path="admins" element={<AdminsManagement />} />
           <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />

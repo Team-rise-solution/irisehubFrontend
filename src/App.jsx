@@ -19,6 +19,8 @@ import UpcomingEvents from "./Pages/UpcomingEvents"
 import UpcomingEventDetail from "./Pages/UpcomingEventDetail"
 import PastEvents from "./Pages/PastEvents"
 import PastEventDetail from "./Pages/PastEventDetail"
+import ShareYourStory from "./Pages/ShareYourStory"
+import StoryDetail from "./Pages/StoryDetail"
 import AdminRoutes from "./admin/AdminRoutes"
 
 // export const backendUrl = import.meta.env.VITE_BACKEND_URL= "http://localhost:3000"
@@ -45,6 +47,8 @@ function App (){
         <Route path="/past-events/:id" element={<PastEventDetail />} />
         <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/events/:id" element={<EventDetail />} />
+        <Route path="/share-your-story" element={<ShareYourStory />} />
+        <Route path="/stories/:id" element={<StoryDetail />} />
         <Route path="/admin/*" element={<AdminRoutes />} />
       </Routes>
       
