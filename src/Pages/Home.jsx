@@ -10,6 +10,8 @@ import NewsMoreInfo from "../Components/Home_Comp/NewsMoreInfo"
 import { useState, useEffect } from "react"
 import Impacts from "../Components/Home_Comp/Impacts"
 import Partners from "../Components/Home_Comp/Partners"
+import Ecosystem from "../Components/Home_Comp/ecosystem"
+import OngoingProjects from "../Components/Home_Comp/ongoingProjects"
 
 function Home (){
     const [ShowNewsInfo, setShowNewsInfo] = useState(false);
@@ -35,12 +37,14 @@ function Home (){
     return <div>
         <Header />
         <HeroSection />
+        <Ecosystem />
+        <OngoingProjects />
+        <Impacts />
         <div className="mt-30 pb-[100px]">
             <PillarApproach />
         </div>
         {/* <Sectors /> */}
-        <Impacts />
-        <Section4 />
+        {/* <Section4 /> */}
         <NewsEvents onEventClicked = {HandleOpenNews} />
         <Partners />
         <Footer />
