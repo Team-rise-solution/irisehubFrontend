@@ -8,7 +8,7 @@ import AgriTechBusiness from "../../Images/AreasWeFocus-Images/AgriTechImg.jpeg"
 import ClimateResilience from "../../Images/AreasWeFocus-Images/ClimateResilience.jpg"
 import CodeLearning from "../../Images/AreasWeFocus-Images/Code Learning.jpeg"
 import Economic from "../../Images/AreasWeFocus-Images/Economic.jpg"
-import Governance from "../../Images/AreasWeFocus-Images/GovernanceCivic.jpg"
+import Governance from "../../Images/AreasWeFocus-Images/Governance and Civic.jpg"
 import InnovationEconomy from "../../Images/HomeComp-Images/img-2.jpeg"
 import { useEffect } from "react";
 function AreasSection (){
