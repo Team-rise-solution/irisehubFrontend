@@ -163,18 +163,11 @@ function Header() {
                 News
               </Link>
               <Link
-                to="/upcoming-events"
+                to="/events"
                 className="block px-4 py-3 hover:underline pb-4"
                 onClick={() => setShowNewsEventsDropdown(false)}
               >
-                Upcoming Events
-              </Link>
-              <Link
-                to="/past-events"
-                className="block px-4 py-3  hover:underline pb-4"
-                onClick={() => setShowNewsEventsDropdown(false)}
-              >
-                Past Events
+                Events
               </Link>
               <Link
                 to="/share-your-story"
@@ -249,8 +242,7 @@ function Header() {
             <Link to="/community"><li>Community</li></Link>
             <Link to="/startups"><li>Startups</li></Link>
               <Link to="/news"><li>News</li></Link>
-              <Link to="/upcoming-events"><li>Upcoming Events</li></Link>
-              <Link to="/past-events"><li>Past Events</li></Link>
+              <Link to="/events"><li>Events</li></Link>
               <Link to="/share-your-story"><li>Share Your Story</li></Link>
           </ul>
 

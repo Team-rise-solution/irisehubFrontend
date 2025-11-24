@@ -41,12 +41,13 @@ function App (){
         <Route path="/public" element={<PublicView />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/events" element={<EventsPage />} />
-        <Route path="/upcoming-events" element={<UpcomingEvents />} />
-        <Route path="/upcoming-events/:id" element={<UpcomingEventDetail />} />
-        <Route path="/past-events" element={<PastEvents />} />
-        <Route path="/past-events/:id" element={<PastEventDetail />} />
-        <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/events/:id" element={<EventDetail />} />
+        {/* Redirect old routes to /events */}
+        <Route path="/upcoming-events" element={<EventsPage />} />
+        <Route path="/upcoming-events/:id" element={<EventDetail />} />
+        <Route path="/past-events" element={<EventsPage />} />
+        <Route path="/past-events/:id" element={<EventDetail />} />
+        <Route path="/news/:id" element={<NewsDetail />} />
         <Route path="/share-your-story" element={<ShareYourStory />} />
         <Route path="/stories/:id" element={<StoryDetail />} />
         <Route path="/admin/*" element={<AdminRoutes />} />

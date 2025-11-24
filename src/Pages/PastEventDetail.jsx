@@ -74,18 +74,39 @@ const PastEventDetail = () => {
         }).toUpperCase();
     };
 
-    const formatEventTime = (dateString) => {
-        if (!dateString) return 'TBA';
-        return new Date(dateString).toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true
-        }).toUpperCase();
+    const formatEventTime = (timeString) => {
+        if (!timeString) return 'TBA';
+        
+        // If it's a date string, format it
+        if (timeString.includes('T') || timeString.includes('-')) {
+            return new Date(timeString).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }).toUpperCase();
+        }
+        
+        // If it's a time string (HH:MM or HH:MM:SS), convert to 12-hour format
+        const timeParts = timeString.split(':');
+        if (timeParts.length >= 2) {
+            let hours = parseInt(timeParts[0], 10);
+            const minutes = timeParts[1];
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            const minutesStr = minutes.length === 1 ? `0${minutes}` : minutes;
+            return `${hours}:${minutesStr} ${ampm}`;
+        }
+        
+        return timeString;
     };
 
     const handleEventClick = (eventId) => {
         navigate(`/past-events/${eventId}`);
     };
+
+    const speakerNames = event?.speakers?.length ? event.speakers : ['iRiseHub Team'];
+    const hasMultipleSpeakers = speakerNames.length > 1;
 
     if (loading) {
         return (
@@ -142,7 +163,7 @@ const PastEventDetail = () => {
                             </p>
                         </div>
                         <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300">
-                            Event time: {event.eventTime || (event.eventDate && formatEventTime(event.eventDate)) || 'TBA'}
+                            Event time: {event.eventTime ? formatEventTime(event.eventTime) : (event.eventDate ? formatEventTime(event.eventDate) : 'TBA')}
                         </p>
                     </div>
 
@@ -213,11 +234,17 @@ const PastEventDetail = () => {
                             </div>
                         )}
 
-                        <div className="flex items-center">
-                            <FiUser className="text-gray-400 mr-3" />
+                        <div className="flex items-start">
+                            <FiUser className="text-gray-400 mr-3 mt-1" />
                             <div>
-                                <p className="text-sm text-gray-400">Speaker</p>
-                                <p className="text-white font-medium">iRiseHub Team</p>
+                                <p className="text-sm text-gray-400">
+                                    {hasMultipleSpeakers ? 'Speakers' : 'Speaker'}
+                                </p>
+                                <div className="text-white font-medium space-y-1">
+                                    {speakerNames.map((name) => (
+                                        <div key={name}>{name}</div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -288,7 +315,11 @@ const PastEventDetail = () => {
                                     
                                     <div className="flex items-center mb-2">
                                         <FiUser className="text-gray-400 text-sm mr-2" />
-                                        <span className="text-sm text-gray-300">iRiseHub Team</span>
+                                        <span className="text-sm text-gray-300">
+                                            {pastEvent.speakers?.length
+                                                ? pastEvent.speakers.join(', ')
+                                                : 'iRiseHub Team'}
+                                        </span>
                                     </div>
                                     
                                     {pastEvent.eventDate && (

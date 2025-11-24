@@ -25,6 +25,8 @@ const AddEvent = () => {
     youtubeLink: '',
     eventDate: '',
     location: '',
+    speakerType: 'single',
+    speakerInput: '',
     image: null
   });
   const [error, setError] = useState('');
@@ -76,6 +78,18 @@ const AddEvent = () => {
       return;
     }
 
+    const speakersList = formData.speakerType === 'single'
+      ? [formData.speakerInput.trim()]
+      : formData.speakerInput
+          .split('\n')
+          .map(name => name.trim())
+          .filter(Boolean);
+
+    if (!speakersList.length) {
+      setError('Please provide at least one speaker name');
+      return;
+    }
+
     try {
       setLoading(true);
       
@@ -85,6 +99,8 @@ const AddEvent = () => {
       eventData.append('fullDescription', formData.fullDescription.trim());
       eventData.append('author', formData.author.trim());
       eventData.append('type', formData.type);
+      eventData.append('speakerType', formData.speakerType);
+      eventData.append('speakers', JSON.stringify(speakersList));
       
       if (formData.youtubeLink) {
         eventData.append('youtubeLink', formData.youtubeLink.trim());
@@ -126,6 +142,8 @@ const AddEvent = () => {
           youtubeLink: '',
           eventDate: '',
           location: '',
+          speakerType: 'single',
+          speakerInput: '',
           image: null
         });
         
@@ -230,6 +248,51 @@ const AddEvent = () => {
                 <option value="Coming Soon">Coming Soon</option>
                 <option value="Past Event">Past Event</option>
               </select>
+            </div>
+
+            {/* Speaker Configuration */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Speaker Mode *
+                </label>
+                <select
+                  name="speakerType"
+                  value={formData.speakerType}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                >
+                  <option value="single">Single Speaker</option>
+                  <option value="multiple">Multiple Speakers</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {formData.speakerType === 'single' ? 'Speaker Name *' : 'Speakers List *'}
+                </label>
+                {formData.speakerType === 'single' ? (
+                  <input
+                    type="text"
+                    name="speakerInput"
+                    value={formData.speakerInput}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter speaker full name"
+                    required
+                  />
+                ) : (
+                  <textarea
+                    name="speakerInput"
+                    value={formData.speakerInput}
+                    onChange={handleInputChange}
+                    rows={4}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+                    placeholder="Enter each speaker on a new line"
+                    required
+                  />
+                )}
+              </div>
             </div>
 
             {/* Short Description */}

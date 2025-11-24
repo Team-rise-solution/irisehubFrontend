@@ -22,17 +22,41 @@ const EventsPage = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await eventAPI.getAll({ page: currentPage, limit: 20 });
+      const response = await eventAPI.getAll({ page: currentPage, limit: 100 });
       if (response.data.success) {
         const allEvents = response.data.data;
         const now = new Date();
         
         // Separate upcoming and past events by admin choice
         const upcoming = allEvents.filter(event => {
-          return event.type === 'Coming Soon';
+          // Must be marked as 'Coming Soon' by admin
+          if (event.type !== 'Coming Soon') {
+            return false;
+          }
+          
+          // If no event date, consider it upcoming (admin's choice)
+          if (!event.eventDate) {
+            return true;
+          }
+          
+          // Check if event date has passed
+          const eventDate = new Date(event.eventDate);
+          
+          // If event has both date and time, combine them for precise comparison
+          if (event.eventTime) {
+            const [hours, minutes] = event.eventTime.split(':');
+            eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+          } else {
+            // If only date, set to end of day (23:59:59)
+            eventDate.setHours(23, 59, 59, 999);
+          }
+          
+          // Event is upcoming if it's in the future
+          return eventDate > now;
         });
         
         const past = allEvents.filter(event => {
+          // Must be marked as 'Past Event' by admin
           return event.type === 'Past Event';
         });
         
@@ -65,13 +89,31 @@ const EventsPage = () => {
     });
   };
 
-  const formatEventTime = (dateString) => {
-    if (!dateString) return 'TBA';
-    return new Date(dateString).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    });
+  const formatEventTime = (timeString) => {
+    if (!timeString) return 'TBA';
+    
+    // If it's a date string, format it
+    if (timeString.includes('T') || timeString.includes('-')) {
+      return new Date(timeString).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+    
+    // If it's a time string (HH:MM or HH:MM:SS), convert to 12-hour format
+    const timeParts = timeString.split(':');
+    if (timeParts.length >= 2) {
+      let hours = parseInt(timeParts[0], 10);
+      const minutes = timeParts[1];
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      const minutesStr = minutes.length === 1 ? `0${minutes}` : minutes;
+      return `${hours}:${minutesStr} ${ampm}`;
+    }
+    
+    return timeString;
   };
 
   const handleBookingClick = (event) => {
@@ -121,12 +163,7 @@ const EventsPage = () => {
       <div className="min-h-screen bg-gray-50 pt-32">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Upcoming Events</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join us for exciting events, workshops, and community gatherings
-          </p>
-        </div>
+     
 
         {/* Upcoming Events */}
         <div className="mb-16">
@@ -176,6 +213,14 @@ const EventsPage = () => {
                           {event.title}
                         </h3>
                         
+                        {/* Speakers */}
+                        <div className="flex items-center mb-2">
+                          <FiUser className="text-gray-400 text-sm mr-2" />
+                          <span className="text-sm text-gray-500">
+                            {event.speakers?.length ? event.speakers.join(', ') : 'iRiseHub Team'}
+                          </span>
+                        </div>
+                        
                         
                         {/* Event Date & Time */}
                         {event.eventDate && (
@@ -218,11 +263,9 @@ const EventsPage = () => {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12">
-              <div className="text-gray-400 text-6xl mb-4">📅</div>
-              <h3 className="text-xl font-medium text-gray-900 mb-2">No Upcoming Events</h3>
-              <p className="text-gray-500">Check back later for upcoming events and workshops.</p>
-            </div>
+            <p className="text-center text-gray-500">
+              There are no upcoming events scheduled right now. Please check back soon.
+            </p>
           )}
         </div>
 
@@ -273,6 +316,14 @@ const EventsPage = () => {
                         <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                           {event.title}
                         </h3>
+                        
+                        {/* Speakers */}
+                        <div className="flex items-center mb-2">
+                          <FiUser className="text-gray-400 text-sm mr-2" />
+                          <span className="text-sm text-gray-500">
+                            {event.speakers?.length ? event.speakers.join(', ') : 'iRiseHub Team'}
+                          </span>
+                        </div>
                         
                         
                         {/* Event Date & Time */}
