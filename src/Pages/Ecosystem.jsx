@@ -17,41 +17,9 @@ import agriedgeLogo from "../Images/HomeComp-Images/agriedge-logo.png";
 import { FaTint } from "react-icons/fa"; // Water icon
 import { GiPlantSeed } from "react-icons/gi"; // Agriculture icon
 import EcosystemSection from "../Components/Ecosystem_Comp/EcosystemSection";
+import ImplementingProjects from "../Components/Ecosystem_Comp/ImplementingProjects";
 
 function Ecosystem() {
-  const companies = [
-    {
-      id: 1,
-      logo: tourbaLogo,
-      name: "Tourba",
-      category: "IRISE HUB",
-      description:
-        "Accelerating farmers' transition to conservation agriculture through carbon farming strategies.",
-    },
-    {
-      id: 2,
-      logo: aradinovLogo,
-      name: "Aradinov",
-      category: "RISE ACADEMY",
-      description:
-        "Innovative and advanced agricultural solutions in arid lands to contribute to food security.",
-    },
-    {
-      id: 3,
-      logo: nutribiotekLogo,
-      name: "Nutribiotek",
-      category: "RISE SOLUTIONS",
-      description:
-        "The development of agrochemical products to contribute to promising growth drivers in the agriculture...",
-    },
-    {
-      id: 4,
-      logo: agriedgeLogo,
-      name: "AgriEdge",
-      category: "MINBAR",
-      description: "Transforming data into nutrients",
-    },
-  ];
 
   return (
     <div className="relative">
@@ -59,9 +27,10 @@ function Ecosystem() {
 
       {/* Qoraalka sare */}
       <div className="py-10 text-black mb-5 lg:mt-10 md:mt-0  px-4">
-        <p className="text-2xl md:text-2xl font-semibold  max-w-3xl mx-auto"> At iRise Hub, our ecosystem connects people, ideas, and opportunities. We empower youth, entrepreneurs, and innovators through programs, spaces, and partnerships that fuel growth, resilience, and lasting impact.</p>
+        <p className="text-2xl md:text-2xl   max-w-3xl mx-auto"> At iRise Hub, our ecosystem connects people, ideas, and opportunities. We empower youth, entrepreneurs, and innovators through programs, spaces, and partnerships that fuel growth, resilience, and lasting impact.</p>
       </div>
       <EcosystemSection />
+      <ImplementingProjects />
       <Footer />
       <BottomPage />
     </div>

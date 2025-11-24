@@ -115,7 +115,7 @@ function Header() {
             </div>
 
             {/* Dropdown: Ecosystem */}
-            <div className="relative" onMouseEnter={() => setIsHoverItem("ecosystem")} onMouseLeave={() => setIsHoverItem(null)}>
+            {/* <div className="relative" onMouseEnter={() => setIsHoverItem("ecosystem")} onMouseLeave={() => setIsHoverItem(null)}>
                 <Link to="/ecosystem"> <li className="items-center flex gap-1 hover:border-b hover:border-b-[1.5px] hover:text-iriseColor"> Ecosystem  <PiCaretDownBold className={`${isHoverItem === "    ecosystem" ? "rotate-180 transition-transform duration-300 ease-in-out" : "rotate-0"}`} /> </li> </Link>
                 { isHoverItem === "ecosystem" && (
                 <div className={`w-[210px] py-4 px-3 transition-transform duration-10 bg-white absolute top-full left-0 rounded-md z-30 shadow-md shadow-black`}>
@@ -123,15 +123,16 @@ function Header() {
                     <Link to="https://www.riseacademy.so/"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Rise Academy </li></Link>
                     <Link to="https://minbarspace.com/"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Minbar </li></Link>
                     <Link to="https://mts2024.com/"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Mogadishu Tech Summit </li></Link>
-                    {/* <Link to="#"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Rise Solution </li></Link>
+                    <Link to="#"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Rise Solution </li></Link>
                     <Link to="#"><li className="border-b-1 border-b-gray-200 hover:border-b-black hover:border-b-[1.5px]"> Kobciye </li></Link>
-                    */}
+                   
                 </ul>
                 </div>
                 )}
-                </div>
+              </div> */}
 
           {/* ✅ Simple links kept for desktop */}
+          <Link className="hover:border-b hover:border-b-[1.5px] hover:text-iriseColor" to="/ecosystem">Ecosystem</Link>
           <Link className="hover:border-b hover:border-b-[1.5px] hover:text-iriseColor" to="/areasWe">Areas We Focus</Link>
           <Link className="hover:border-b hover:border-b-[1.5px] hover:text-iriseColor" to="/community">Community</Link>
           <Link className="hover:border-b hover:border-b-[1.5px] hover:text-iriseColor" to="/startups">Startups</Link>

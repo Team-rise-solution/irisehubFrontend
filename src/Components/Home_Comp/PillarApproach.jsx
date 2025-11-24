@@ -38,42 +38,108 @@ function PillarApproach(){
         const Interval = setInterval(() => {
             setIndex((prevIndex) => prevIndex === Data.length -1 ? 0 : prevIndex + 1);
         },4000)
+        return () => clearInterval(Interval)
     },[Data.length])
     const Current = Data[index]
-    return <div className="w-full md:px-[80px] px-8 relative ">
-        {/* top section */}
-        <div className="w-full flex justify-center   relative">
-            <div className="lg:w-[220px] lg:h-[220px] w-[150px] h-[150x] absolute lg:left-40  skew-[-20deg] rotate-12 bg-iriseColor opacity-40 "></div>
-            <div className="md:w-[700px] w-[350px] mt-7 lg:ml-30 absolute z-1  ">
-                <h1 className="font-bold text-[30px]"> Our Approach </h1>
-                <p className=" md:text-[30px] text-[18px] mt-5 md:leading-[40px]"> By merging technology with entrepreneurship, we transform challenges into opportunities. Our approach empowers youth and women to lead ventures that create impact and resilience.</p>
-            </div>
-        </div>
-        {/* Images section */}
-        <div className="w-full lg:h-[800px] md:h-[600px]  h-[450px] relative rounded-2xl  overflow-hidden justify-center flex mt-70 md:mt-86">
-            <img className="w-full transition-all duration-800 ease-in-out h-full object-cover" src={Current.Image} alt="" />
-            <div className="bg-black/20 w-full h-full object-cover  flex flex-col lg:justify-center md:pt-20 pt-10 items-center  absolute top-0 ">
-                <div className=" lg:w-[650px] md:w-[500px] w-[350px] flex px-10 md:px-0 flex-col items-center text-center ">
-                    <div className="flex relative md:ml-30 ml-20">
-                        <div className="md:w-[70px] w-[50px]  md:h-[70px] h-[50px] ml-10 border-[1.5px] border-white/80 skew-x-[-20deg] "></div>
-                        <h1 className="md:text-[40px] text-[30px] uppercase  font-bold absolute right-6 text-center text-iriseColor"> {Current.Title}</h1>
-                    </div>
-                    <p className="md:text-[21px]  mt-10 text-white"> {Current.Desc}. </p>
-                </div>
-                    <Link to={Current.Link} >
-                        <button className="primaryBtn bg-iriseColor text-white md:py-4 md:px-16 md:pl-6 px-16 pl-4 py-3 mt-7 group "> DISCOVER MORE 
-                            <div className="primaryBtnArrayIcon bg-white border-white group-hover:text-white text-iriseColor group-hover:bg-transparent"> <HiArrowSmRight /> </div> 
-                        </button>
-                    </Link>
-                    <div className="flex flex-wrap md:flex-nowrap md:gap-10 px-8 gap-5 justify-between lg:absolute md:mt-20 mt-10 lg:mt-0 lg:bottom-20">
-                    {Data.map((item,index) => (
-                        <div key={index} className={` lg:w-[150px] md:w-[110px] w-[90px] text-center text-white  font-semibold leading-[20px] pb-2 border-b-4  ${ item === Current ? "border-iriseColor " : "border-b-white"} `}>
-                            <h1> {item.Title} </h1>
+    
+    return (
+        <div className="w-full py-16 md:py-24 px-4 sm:px-6 md:px-8 lg:px-20 relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white">
+            {/* Background decorative elements */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-iriseColor/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+            
+            <div className="max-w-7xl mx-auto relative z-10">
+                {/* Header Section */}
+                <div className="text-center mb-12 md:mb-16 relative">
+                    <div className="inline-block mb-6">
+                        <div className="flex items-center gap-4 justify-center">
+                            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900">
+                                Our Approach
+                            </h1>
+                            <div className="w-12 h-12 md:w-16 md:h-16 border-2 border-iriseColor skew-[-20deg] transform rotate-12 ml-2 md:ml-4"></div>
                         </div>
-                    ))}
                     </div>
+                    <p className="text-lg md:text-xl  text-gray-600 max-w-4xl mx-auto leading-relaxed px-4">
+                        By merging technology with entrepreneurship, we transform challenges into opportunities. Our approach empowers youth and women to lead ventures that create impact and resilience.
+                    </p>
+                </div>
+
+                {/* Main Content Card */}
+                <div className="relative group">
+                    <div className="w-full lg:h-[700px] md:h-[600px] h-[500px] relative rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 hover:shadow-3xl">
+                        {/* Background Image with Overlay */}
+                        <div className="absolute inset-0">
+                            <img 
+                                className="w-full h-full object-cover transition-all duration-1000 ease-in-out transform scale-100 group-hover:scale-110" 
+                                src={Current.Image} 
+                                alt={Current.Title} 
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
+                            <div className="absolute inset-0 bg-iriseColor/10 mix-blend-overlay"></div>
+                        </div>
+
+                        {/* Content Overlay */}
+                        <div className="absolute inset-0 flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 lg:px-20">
+                            {/* Title Section */}
+                            <div className="text-center mb-8 transform transition-all duration-700">
+                                <div className="inline-flex items-center gap-3 mb-6">
+                                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase tracking-tight drop-shadow-2xl">
+                                        {Current.Title}
+                                    </h2>
+                                    <div className="w-16 h-16 md:w-20 md:h-20 border-2 border-white/80 skew-[-20deg] transform -rotate-12 bg-white/10 backdrop-blur-sm"></div>
+                                </div>
+                                <p className="text-lg md:text-xl lg:text-2xl text-white/95 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-lg">
+                                    {Current.Desc}
+                                </p>
+                            </div>
+
+                            {/* CTA Button */}
+                            {Current.Link && (
+                                <Link to={Current.Link}>
+                                    <button className="group/btn relative overflow-hidden bg-iriseColor text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-semibold text-base md:text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3">
+                                        <span className="relative z-10">DISCOVER MORE</span>
+                                        <div className="relative z-10 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center transform group-hover/btn:translate-x-1 transition-transform duration-300">
+                                            <HiArrowSmRight className="text-xl" />
+                                        </div>
+                                        <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform duration-300 origin-left"></div>
+                                    </button>
+                                </Link>
+                            )}
+                        </div>
+
+                        {/* Navigation Pills - Bottom */}
+                        <div className="absolute bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 w-full max-w-4xl px-4">
+                            <div className="flex flex-wrap justify-center gap-3 md:gap-4 bg-white/10 backdrop-blur-md rounded-full p-2 md:p-3 border border-white/20">
+                                {Data.map((item, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setIndex(idx)}
+                                        className={`relative px-6 md:px-8 py-2 md:py-3 rounded-full font-semibold text-sm md:text-base transition-all duration-300 transform hover:scale-105 ${
+                                            item === Current
+                                                ? "bg-iriseColor text-white shadow-lg scale-105"
+                                                : "bg-white/20 text-white/80 hover:bg-white/30 hover:text-white"
+                                        }`}
+                                    >
+                                        <span className="relative z-10">{item.Title}</span>
+                                        {item === Current && (
+                                            <div className="absolute inset-0 bg-gradient-to-r from-iriseColor to-blue-500 rounded-full opacity-80 animate-pulse"></div>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Progress Indicator */}
+                        <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20">
+                            <div 
+                                className="h-full bg-gradient-to-r from-iriseColor to-blue-500 transition-all duration-4000 ease-linear"
+                                style={{ width: `${((index + 1) / Data.length) * 100}%` }}
+                            ></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    )
 }
 export default PillarApproach

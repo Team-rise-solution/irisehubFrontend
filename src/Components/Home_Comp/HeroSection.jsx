@@ -1,21 +1,21 @@
 // Hero section images 
-import Hero1 from "../../Images/HomeComp-Images/img-1.jpg"
-import Hero2 from "../../Images/HomeComp-Images/img-2.jpg"
+import Hero1 from "../../Images/HomeComp-Images/img-1.jpeg"
+import Hero2 from "../../Images/HomeComp-Images/img-2.jpeg"
 import Hero3 from "../../Images/HomeComp-Images/img-3.jpg"
 import Hero4 from "../../Images/HomeComp-Images/img-4.jpg"
-import Hero5 from "../../Images/HomeComp-Images/img-5.jpg"
-import Hero6 from "../../Images/HomeComp-Images/img-6.jpg"
-import Hero7 from "../../Images/HomeComp-Images/img-7.jpg"
-import Hero8 from "../../Images/HomeComp-Images/img-8.jpg"
-import Hero9 from "../../Images/HomeComp-Images/img-9.jpg"
-import Hero10 from "../../Images/HomeComp-Images/img-10.jpg"
+import Hero5 from "../../Images/HomeComp-Images/img-5.jpeg"
+import Hero6 from "../../Images/HomeComp-Images/img-6.jpeg"
+import Hero7 from "../../Images/HomeComp-Images/img-7.jpeg"
+import Hero8 from "../../Images/HomeComp-Images/img-8.jpeg"
+import Hero9 from "../../Images/HomeComp-Images/img-9.jpeg"
+// import Hero10 from "../../Images/HomeComp-Images/img-10.jpeg"
 // Arrow
 import { HiArrowSmRight } from "react-icons/hi";
 import { useEffect, useState } from "react"
 
 function HeroSection (){
     const HeroSectionImages = [
-        Hero1,Hero2,Hero3,Hero4,Hero5,Hero6,Hero7,Hero8,Hero9,Hero10,
+        Hero1,Hero2,Hero3,Hero4,Hero5,Hero6,Hero7,Hero8,Hero9,
     ]
     const [index, setIndex] = useState(0);
     const [ClockLikeRotate, setClockLikeRotate] = useState(0);

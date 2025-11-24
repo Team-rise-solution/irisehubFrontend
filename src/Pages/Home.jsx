@@ -34,7 +34,7 @@ function Home (){
         }
     })
 
-    return <div>
+    return <div className="overflow-x-hidden w-full">
         <Header />
         <HeroSection />
         <Ecosystem />

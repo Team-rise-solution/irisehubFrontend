@@ -2,7 +2,7 @@ import EcosystemHeroImage from "../Images/Ecosystem-Images/EcosystemHero.jpg"
 import AboutHero from "../Images/About-Images/AboutHero.jpg"
 import AresWeFocusHero from "../Images/AreasWeFocus-Images/AreasWeFocusHero.jpg"
 import CommunityHero from "../Images/Community-Images/CommunityHero.jpg"
-import StartupsHero from "../Images/StartUps-Images/StartupsHero.jpg"
+import StartupsHero from "../Images/StartUps-Images/StartupsHero.png"
 import NewsEventsHero from "../Images/NewsEvents-Images/NewsletterHeroImage.jpg"
 import RiseAcademeyHero from "../Images/Ecosystem-Images/RiseAcademy/RiseAcademyHero.jpg"
 
@@ -35,7 +35,7 @@ function PublicHeroSection (){
         },
         "/startups" : {
             Image : StartupsHero,
-            Title : "Startups",
+            // Title : "Startups",
             Link : "/startups"
         },
         "/newsletter" : {
@@ -59,7 +59,9 @@ function PublicHeroSection (){
                 <div className="w-full h-full absolute flex justify-center bg-black/30 top-0">
                 <div className="flex absolute bottom-20 items-center">
                     <h1 className="md:text-[70px] text-[35px] font-semibold  text-white"> {CurrentPage.Title} </h1>
-                    <div className="w-[70px] h-[70px] border-2 -ml-10 border-white skew-x-[-20deg]"></div>
+                    {path !== "/startups" && (
+                        <div className="w-[70px] h-[70px] border-2 -ml-10 border-white skew-x-[-20deg]"></div>
+                    )}
                 </div>
                 </div>
         </div>

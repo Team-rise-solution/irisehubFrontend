@@ -1,26 +1,18 @@
-import Premiere from "../../Images/HomeComp-Images/Partners/Premiere Bank.jpg"
-import IBS from "../../Images/HomeComp-Images/Partners/IBS Bank.png"
-import FCA from "../../Images/HomeComp-Images/Partners/FCA.jpg"
-import Ankageo from "../../Images/HomeComp-Images/Partners/Ankageo.jpg"
-import Banadir from "../../Images/HomeComp-Images/Partners/Banadir.png"
-import ICRC from "../../Images/HomeComp-Images/Partners/ICRC.png"
-import Jamhuriya from "../../Images/HomeComp-Images/Partners/Jamhuriya.ico"
 import Netherland from "../../Images/HomeComp-Images/Partners/Netherland.png"
-import NOA from "../../Images/HomeComp-Images/Partners/NOA.jpg"
-import SBSN from "../../Images/HomeComp-Images/Partners/SBSN.jpg"
-import SOS from "../../Images/HomeComp-Images/Partners/SOS.png"
-import UNHabitat from "../../Images/HomeComp-Images/Partners/UN Habitat logo.png"
 import UNDP from "../../Images/HomeComp-Images/Partners/UNDP.png"
 import UNFPA from "../../Images/HomeComp-Images/Partners/UNFPA.png"
 import Unicef from "../../Images/HomeComp-Images/Partners/unicef.png"
 import UNIDO from "../../Images/HomeComp-Images/Partners/UNIDO.png"
 import Ueropean from "../../Images/HomeComp-Images/Partners/Uropean.png"
 import USEMPASSY from "../../Images/HomeComp-Images/Partners/US Empassy.jpg"
-import Scholar from "../../Images/HomeComp-Images/Partners/World Class Scholars.png"
+import MinisterofEducation from "../../Images/HomeComp-Images/Partners/Minister of Education.png"
+import MinisterofPlanning from "../../Images/HomeComp-Images/Partners/Ministery of planning.png"
+import USAID from "../../Images/HomeComp-Images/Partners/USAID.jpg"
+import { Link } from "react-router-dom"
+import { HiArrowSmRight } from "react-icons/hi"
 
 const partners = [
-  Premiere, IBS, FCA, Ankageo, Banadir, ICRC, Jamhuriya, Netherland, NOA, 
-  SBSN, SOS, UNHabitat, UNDP, UNFPA, Unicef, UNIDO, Ueropean, USEMPASSY, Scholar
+  UNFPA,MinisterofEducation, USEMPASSY,Ueropean, Unicef, UNIDO, Netherland, UNDP, MinisterofPlanning, USAID,    
 ]
 
 function Partners (){
@@ -36,6 +28,17 @@ function Partners (){
             <img className="w-full h-full transition-all hover:scale-110 ease-in-out duration-300 object-contain" src={logo} alt={`Partner-${index}`} />
           </div>
         ))}
+      </div>
+      
+      {/* See More Button */}
+      <div className="mt-12 flex justify-center">
+        <Link
+          to="/partners"
+          className="group inline-flex items-center gap-2 px-7 py-3 bg-iriseColor text-white text-sm font-semibold rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+        >
+          <span>See More</span>
+          <HiArrowSmRight className="text-lg group-hover:translate-x-1 transition-transform duration-300" />
+        </Link>
       </div>
     </div>
   )

@@ -17,8 +17,10 @@
  * {
     font-family: var(--font-roboto);
   }
-html {
+html, body {
   @apply scroll-smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
   @layer base {
     .primaryBtn {

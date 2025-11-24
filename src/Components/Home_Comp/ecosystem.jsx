@@ -1,6 +1,6 @@
 import RiseAcademy from "../../Images/About-Images/Rise Academy.png";
 import Minbar from "../../Images/About-Images/Minbar.png";
-import BICSomali from "../../Images/About-Images/BIC Somali.png";
+import MogadishuTech from "../../Images/About-Images/Mogadishu Tech Summit.png";
 import { HiArrowSmRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
@@ -19,9 +19,9 @@ function Ecosystem() {
       Link: "#"
     },
     {
-      Name: "BIC (Business Innovation Center)",
-      Desc: "An incubation and innovation hub providing startups with mentorship, resources, and funding pathways to scale.",
-      Image: BICSomali,
+      Name: "Mogadishu Tech Summit",
+      Desc: "Somalia's largest technology and innovation event, connecting entrepreneurs, investors, and policymakers.",
+      Image: MogadishuTech,
       Link: "#"
     }
   ];
@@ -50,13 +50,14 @@ function Ecosystem() {
             className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
           >
             {/* Image Container */}
-            <div className="relative h-64 md:h-72 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-10"></div>
-              <img
-                src={item.Image}
-                alt={item.Name}
-                className="w-full h-full object-contain p-6 transition-transform duration-700 group-hover:scale-110"
-              />
+            <div className="relative h-64 md:h-72 overflow-hidden bg-white">
+              <div className="w-full h-full flex items-center justify-center p-8">
+                <img
+                  src={item.Image}
+                  alt={item.Name}
+                  className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-110"
+                />
+              </div>
               {/* Hover Overlay */}
               <div className="absolute inset-0 bg-iriseColor/90 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 flex items-center justify-center">
                 <div className="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -86,6 +87,17 @@ function Ecosystem() {
             <div className="absolute bottom-0 left-0 w-0 h-1 bg-iriseColor group-hover:w-full transition-all duration-500"></div>
           </Link>
         ))}
+      </div>
+
+      {/* View All CTA Button */}
+      <div className="max-w-7xl mx-auto mt-12 md:mt-16 flex justify-center">
+        <Link
+          to="/ecosystem"
+          className="group inline-flex items-center gap-2 px-8 py-4 bg-iriseColor text-white font-semibold rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+        >
+          <span>View All</span>
+          <HiArrowSmRight className="text-xl group-hover:translate-x-1 transition-transform duration-300" />
+        </Link>
       </div>
     </div>
   );
