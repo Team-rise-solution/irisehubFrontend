@@ -3,14 +3,15 @@ import { FaClock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import BICSomali from "../../Images/About-Images/BIC Somali.png";
 import Dalbile from "../../Images/About-Images/Dalbile.png";
+import Nagaasho from "../../Images/HomeComp-Images/NagaashoLogo.png"
 
 function OngoingProjects() {
   // Sample projects - you can replace these with actual project data
   const projects = [
     {
       Title: "Nagaasho",
-      Desc: "An intensive 6-month program designed to equip young professionals with cutting-edge digital skills including web development, data analytics, and digital marketing. This initiative aims to bridge the skills gap and create employment opportunities in the tech sector.",
-      Image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop",
+      Desc : "The Nagaasho Project is a four-year initiative in Somalia aimed at strengthening community resilience and preventing forced displacement. It focuses on promoting climate-smart livelihoods, inclusive economic opportunities, and social cohesion, particularly for women, youth, and marginalized groups. Implemented by a consortium of partners under the Danish Somalia Strategic Framework, the project employs integrated approaches—including climate science, socio-economic analysis, and community-led planning—to address the root causes of vulnerability in rural communities.",
+      Image: Nagaasho,
       Status: "Ongoing",
       // LaunchDate: "Q2 2024"
     },

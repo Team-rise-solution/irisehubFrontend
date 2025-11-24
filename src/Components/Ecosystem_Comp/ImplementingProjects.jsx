@@ -1,12 +1,25 @@
 import AWE from "../../Images/About-Images/AWE.png"
 import BICSomali from "../../Images/About-Images/BIC Somali.png"
 import Dalbile from "../../Images/About-Images/Dalbile.png"
-
+import SOS from "../../Images/Ecosystem-Images/SOS Somalia.jpg"
+import SaveTheChildren from "../../Images/Ecosystem-Images/Save the children.png"
+import UNICEF from "../../Images/HomeComp-Images/Partners/unicef.png"
+import UN from "../../Images/HomeComp-Images/Partners/Uropean.png"
+import WorldBank from "../../Images/Ecosystem-Images/World Bank.jpg"
+import ICRC from "../../Images/Ecosystem-Images/ICRC.png"
+import ADESO from "../../Images/Ecosystem-Images/Adeso.webp"
 function ImplementingProjects (){
      const items = [
-    { Name: "BIC (Business Innovation Center)", Desc: "An incubation and innovation hub providing startups with mentorship, resources, and funding pathways to scale.", Image: BICSomali },
-    { Name: "AWE (Academy for Women Entrepreneurs)", Desc: "A global program empowering Somali women with entrepreneurship training, networking, and access to finance and markets.", Image: AWE },
-    { Name: "Dalbile Youth Initiative", Desc: "Equipping Somali youth with funding, mentorship, and training in health, agriculture, environment, and tourism.", Image: Dalbile },
+    { Name: "BIC (Business Innovation Center)", Desc: "Business Incubators is an EU funded UNIDO program that supports Somali youth with tech based and innovation driven incubation. It operates across Somalia, with iRise Hub incubating 25 startups per cohort. The project runs in three 12 month cohorts and is now in the third phase of the second cohort, where selected entrepreneurs receive equipment grants worth 2,000 to 9,000 dollars.", Image: BICSomali },
+    { Name: "AWE (Academy for Women Entrepreneurs)", Desc: "AWE is a U.S. Embassy funded program in Banadir that supports women to start and grow small businesses through practical training and networks. It strengthens women’s economic participation by building skills, confidence, and access to local opportunities in line with the U.S. National Strategy on Gender Equity and Equality.The rollout covers 2 years and the execution stage is ongoing.", Image: AWE },
+    { Name: "Dalbile Youth Initiative", Desc: "Dalbile was a youth empowerment project funded by the EU through UNFPA and implemented  with iRise.It took place in Jubbaland, Garowe, South West, BRA, Hirshabelle, Galmudug, and  Puntland. The rollout lasted 36 months and the execution stage is already completed.", Image: Dalbile },
+    {Name :"The Next Economy (TNE) ", Desc: "This SOS Children’s Village Iceland funded project supported youth in Banadir to access skills and real entry points to the labour market.It responded to high unemployment and the shortage of entry level roles by helping young people build experience and improve their readiness for work. The rollout lasted 3 years, the execution stage is concluded, and it aligned with national efforts to reduce youth unemployment.", Image: SOS},
+    {Name :" UPSHIFT Innovative Livelihoods Program - Benadir Region", Desc: "UNICEF funded this one-year project in Banadir to help youth build practical 21st century skills for work and entrepreneurship. It responded to high unemployment, risky migration paths, and limited leadership support by guiding youth toward safer economic opportunities. The execution stage is concluded", Image: UNICEF},
+    {Name :"Economic and Social Empowerment of Youth (EASEY) in Somalia", Desc: "EASEY was a Save the Children and BMZ funded project in Mogadishu that supported displaced youth with business development skills and pitching opportunities. It focused on 350 young people, including youth with disabilities, helping them build entrepreneurship skills and move toward income opportunities. The rollout lasted 1 month and the execution stage is concluded.", Image: SaveTheChildren},
+    {Name :"Rajo Hackathon", Desc: "Rajo Hackathon was a UN Habitat funded program in Mogadishu, Garowe, and Kismayo. It trained 400 youth in construction, business, entrepreneurship, and soft skills, with selected participants receiving start up support.The rollout lasted 12 months and the execution stage is concluded.", Image: UN},
+    {Name :"Mogadishu Watt", Desc: "Mogadishu Watt was a World Bank funded youth energy challenge in Mogadishu focused on solutions for affordable and sustainable energy.It trained over ten youth groups from idea stage to launch and supported them to develop practical energy innovations.The rollout lasted six months and the execution stage is concluded.", Image: WorldBank},
+    {Name :"Catalyzing Economic Development and Livelihoods (CEDL)", Desc: "CEDL was an ADESO funded project in Adado, Jowhar, and Kismayo that supported local economic growth through skills development and business incubation.It helped youth, women, and men strengthen their productivity and competitiveness and improved access to financing for new and existing entrepreneurs.The rollout lasted six months and the execution stage is concluded.", Image: ADESO},
+    {Name :"Project Name: Vocational Training Services in Business Skills (Entrepreneurship/SMEs) Course.", Desc: "Vocational Training Services was funded by the International Committee of the Red Cross, delivered in Banadir for youth and women with limited skills because of conflict. It focused on business and entrepreneurship training to help them enter income-generating work in both formal and informal markets. The rollout lasted 6 months and the execution stage is concluded", Image: ICRC}
   ];
     return (
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 mx-auto max-w-7xl py-12 md:py-16">

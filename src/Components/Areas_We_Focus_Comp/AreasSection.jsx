@@ -4,12 +4,12 @@ import ClimateIcon from "../../Images/AreasWeFocus-Images/climateIcon.png"
 import CodingIcon from "../../Images/AreasWeFocus-Images/CodingIcon.png"
 import EconomicIcon from "../../Images/AreasWeFocus-Images/EconomicIcon.png"
 import GovernanceIcon from "../../Images/AreasWeFocus-Images/GovernanceIcon.png"
-import InnovationDigital from "../../Images/AreasWeFocus-Images/InnovationEconomy.jpg"
 import AgriTechBusiness from "../../Images/AreasWeFocus-Images/AgriTechImg.jpeg"
 import ClimateResilience from "../../Images/AreasWeFocus-Images/ClimateResilience.jpg"
 import CodeLearning from "../../Images/AreasWeFocus-Images/Code Learning.jpeg"
 import Economic from "../../Images/AreasWeFocus-Images/Economic.jpg"
 import Governance from "../../Images/AreasWeFocus-Images/GovernanceCivic.jpg"
+import InnovationEconomy from "../../Images/HomeComp-Images/img-2.jpeg"
 import { useEffect } from "react";
 function AreasSection (){
     useEffect(() => {
@@ -46,7 +46,7 @@ function AreasSection (){
      const EcosystemData = [
   {
     Icon: InnovationIcon,
-    Image: InnovationDigital,
+    Image: InnovationEconomy,
     Title: "Innovation & Digital Economy",
     Desc: "We believe technology and innovation are powerful drivers of economic growth and social change. Our focus is on creating an enabling environment for digital transformation and supporting innovators to solve local challenges",
     Points: [
