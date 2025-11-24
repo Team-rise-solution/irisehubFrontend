@@ -136,7 +136,21 @@ const PublicView = () => {
             {item.eventTime && (
               <div className="flex items-center text-sm text-gray-600 mb-2">
                 <FiClock className="w-4 h-4 mr-2" />
-                Event Time: {item.eventTime}
+                Event Time: {(() => {
+                  const timeString = item.eventTime;
+                  if (!timeString) return 'TBA';
+                  const timeParts = timeString.split(':');
+                  if (timeParts.length >= 2) {
+                    let hours = parseInt(timeParts[0], 10);
+                    const minutes = timeParts[1];
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                    hours = hours % 12;
+                    hours = hours ? hours : 12;
+                    const minutesStr = minutes.length === 1 ? `0${minutes}` : minutes;
+                    return `${hours}:${minutesStr} ${ampm}`;
+                  }
+                  return timeString;
+                })()}
               </div>
             )}
             {item.location && (

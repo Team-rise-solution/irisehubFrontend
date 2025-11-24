@@ -834,10 +834,27 @@ const AdminDashboard = () => {
 
 
                         {/* Event Details */}
-                        {(viewingItem.eventDate || viewingItem.location) && (
+                {(viewingItem.eventDate || viewingItem.location || (viewingType === 'event' && viewingItem.speakers?.length)) && (
                           <div>
                             <h2 className="text-2xl font-bold text-gray-900 mb-4">Event Details</h2>
                             <div className="bg-gray-50 rounded-xl p-6 space-y-4">
+                      {viewingType === 'event' && viewingItem.speakers?.length > 0 && (
+                        <div className="flex items-start space-x-3">
+                          <div className="p-2 bg-indigo-100 rounded-lg">
+                            <FiUser className="w-5 h-5 text-indigo-600" />
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-500">
+                              {viewingItem.speakers.length > 1 ? 'Speakers' : 'Speaker'}
+                            </p>
+                            <div className="text-gray-900 font-medium space-y-1">
+                              {viewingItem.speakers.map((speaker) => (
+                                <div key={speaker}>{speaker}</div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                               {viewingItem.eventDate && (
                                 <div className="flex items-center space-x-3">
                                   <div className="p-2 bg-blue-100 rounded-lg">
@@ -859,7 +876,21 @@ const AdminDashboard = () => {
                                   <div>
                                     <p className="text-sm font-medium text-gray-500">Event Time</p>
                                     <p className="text-gray-900 font-medium">
-                                      {viewingItem.eventTime}
+                                      {(() => {
+                                        const timeString = viewingItem.eventTime;
+                                        if (!timeString) return 'TBA';
+                                        const timeParts = timeString.split(':');
+                                        if (timeParts.length >= 2) {
+                                          let hours = parseInt(timeParts[0], 10);
+                                          const minutes = timeParts[1];
+                                          const ampm = hours >= 12 ? 'PM' : 'AM';
+                                          hours = hours % 12;
+                                          hours = hours ? hours : 12;
+                                          const minutesStr = minutes.length === 1 ? `0${minutes}` : minutes;
+                                          return `${hours}:${minutesStr} ${ampm}`;
+                                        }
+                                        return timeString;
+                                      })()}
                                     </p>
                                   </div>
                                 </div>
@@ -900,6 +931,18 @@ const AdminDashboard = () => {
                               <label className="text-sm font-medium text-gray-500">Author</label>
                               <p className="text-gray-900 font-medium">{viewingItem.author}</p>
                             </div>
+                            {viewingType === 'event' && viewingItem.speakers?.length > 0 && (
+                              <div>
+                                <label className="text-sm font-medium text-gray-500">
+                                  {viewingItem.speakers.length > 1 ? 'Speakers' : 'Speaker'}
+                                </label>
+                                <div className="text-gray-900 font-medium space-y-1 mt-1">
+                                  {viewingItem.speakers.map((speaker) => (
+                                    <div key={speaker}>{speaker}</div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                         <div>
                           <label className="text-sm font-medium text-gray-500">Status</label>
                           <div className="mt-1">

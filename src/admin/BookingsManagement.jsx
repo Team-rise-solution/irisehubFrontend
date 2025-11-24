@@ -144,6 +144,11 @@ const BookingsManagement = () => {
     });
   };
 
+  const formatCapitalize = (value) => {
+    if (!value) return 'N/A';
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  };
+
   // Calculate event-specific stats
   const getEventStats = () => {
     if (!showEventBookings || !bookings.length) {
@@ -196,13 +201,17 @@ const BookingsManagement = () => {
 
     // Create Excel-compatible content
     const excelContent = [
-      ['#', 'Full Name', 'Email', 'Phone', 'Location', 'Event Title', 'Event Date', 'Booking Date'],
+      ['#', 'Full Name', 'Email', 'Phone', 'Location', 'Gender', 'Employment', 'Education', 'Expectation', 'Event Title', 'Event Date', 'Booking Date'],
       ...dataToExport.map((booking, index) => [
         index + 1,
         booking.fullName,
         booking.email,
         booking.mobileNumber,
         booking.location,
+        formatCapitalize(booking.gender),
+        formatCapitalize(booking.employmentStatus),
+        booking.educationBackground || 'N/A',
+        booking.expectation || '',
         booking.eventId?.title || 'Event Not Found',
         booking.eventId?.eventDate ? new Date(booking.eventId.eventDate).toLocaleDateString() : 'N/A',
         formatDate(booking.bookingDate)
@@ -392,6 +401,18 @@ const BookingsManagement = () => {
                       Location
                 </th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                      Gender
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                      Employment
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                      Education
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
+                      Expectation
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
                   Booking Date
                 </th>
                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider border-b border-gray-200">
@@ -417,6 +438,20 @@ const BookingsManagement = () => {
                       <td className="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
                           {booking.location}
                   </td>
+                      <td className="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                          {formatCapitalize(booking.gender)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                          {formatCapitalize(booking.employmentStatus)}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                          {booking.educationBackground || 'N/A'}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
+                          <div className="max-w-xs truncate" title={booking.expectation}>
+                            {booking.expectation || '—'}
+                          </div>
+                      </td>
                       <td className="px-4 py-3 text-sm text-gray-900 border-r border-gray-200">
                     {formatDate(booking.bookingDate)}
                   </td>

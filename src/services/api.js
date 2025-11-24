@@ -2,6 +2,13 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+// Debug: Log API URL in development
+if (import.meta.env.DEV) {
+  console.log('🔧 API URL:', API_URL);
+  console.log('🔧 VITE_API_URL env:', import.meta.env.VITE_API_URL);
+  console.log('🔧 Mode:', import.meta.env.MODE);
+}
+
 // Create public axios instance (no auth token)
 const publicApi = axios.create({
   baseURL: API_URL,
@@ -20,6 +27,32 @@ publicApi.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+// Response interceptor for debugging in development
+if (import.meta.env.DEV) {
+  publicApi.interceptors.response.use(
+    (response) => {
+      console.log('✅ API Response:', response.config.method?.toUpperCase(), response.config.url, response.status);
+      return response;
+    },
+    (error) => {
+      console.error('❌ API Error:', {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response?.status,
+        message: error.response?.data?.message || error.message,
+        baseURL: error.config?.baseURL
+      });
+      
+      if (!error.response) {
+        console.error('❌ Network error - Check if backend is running on:', API_URL);
+        console.error('❌ Make sure backend server is started: cd Backend && npm start');
+      }
+      
+      return Promise.reject(error);
+    }
+  );
+}
 
 
 // Create admin axios instance (with auth token)

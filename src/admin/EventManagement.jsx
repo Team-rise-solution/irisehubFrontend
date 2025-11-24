@@ -27,6 +27,33 @@ const EventManagement = () => {
 
   const [loading, setLoading] = useState(false);
   const [eventsList, setEventsList] = useState([]);
+  const convertTo12Hour = (time24) => {
+    if (!time24) return { time: '', meridiem: 'AM' };
+    const [hourStr, minute = '00'] = time24.split(':');
+    let hour = parseInt(hourStr, 10);
+    if (Number.isNaN(hour)) return { time: '', meridiem: 'AM' };
+    const meridiem = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+    const hourStr12 = hour.toString().padStart(2, '0');
+    return { time: `${hourStr12}:${minute}`, meridiem };
+  };
+
+  const convertTo24Hour = (timeInput, meridiem) => {
+    if (!timeInput) return '';
+    const [hourPart, minutePart = '00'] = timeInput.split(':').map(part => part.trim());
+    let hour = parseInt(hourPart, 10);
+    const minute = parseInt(minutePart, 10);
+    if (Number.isNaN(hour) || Number.isNaN(minute)) return '';
+    hour = hour % 12;
+    if (meridiem === 'PM') {
+      hour += 12;
+    }
+    return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+  };
+
+  const [eventTimeError, setEventTimeError] = useState(false);
+
   const [formData, setFormData] = useState({
     title: '',
     shortDescription: '',
@@ -35,7 +62,11 @@ const EventManagement = () => {
     youtubeLink: '',
     eventDate: '',
     eventTime: '',
+    eventTimeInput: '',
+    eventTimeMeridiem: 'AM',
     location: '',
+    speakerType: 'single',
+    speakerInput: '',
     image: null
   });
   const [error, setError] = useState('');
@@ -68,6 +99,9 @@ const EventManagement = () => {
       const response = await eventAPI.getById(id);
       if (response?.data?.data) {
         const event = response.data.data;
+        const speakersList = Array.isArray(event.speakers) ? event.speakers : [];
+        const derivedSpeakerType = event.speakerType || (speakersList.length > 1 ? 'multiple' : 'single');
+        const { time: eventTimeInput, meridiem: eventTimeMeridiem } = convertTo12Hour(event.eventTime);
         setFormData({
           title: event.title || '',
           shortDescription: event.shortDescription || '',
@@ -76,7 +110,13 @@ const EventManagement = () => {
           youtubeLink: event.youtubeLink || '',
           eventDate: event.eventDate ? new Date(event.eventDate).toISOString().split('T')[0] : '',
           eventTime: event.eventTime || '',
+          eventTimeInput,
+          eventTimeMeridiem,
           location: event.location || '',
+          speakerType: derivedSpeakerType,
+          speakerInput: derivedSpeakerType === 'single'
+            ? (speakersList[0] || '')
+            : speakersList.join('\n'),
           image: null // Don't pre-fill image for editing
         });
         setShowForm(true);
@@ -91,10 +131,65 @@ const EventManagement = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => {
+      // Handle event time input fields specially
+      if (name === 'eventTimeInput' || name === 'eventTimeMeridiem') {
+        let formattedTimeInput = prev.eventTimeInput;
+        
+        if (name === 'eventTimeInput') {
+          // Remove all non-numeric characters
+          const numbersOnly = value.replace(/\D/g, '');
+          
+          // Auto-format with colon
+          if (numbersOnly.length === 0) {
+            formattedTimeInput = '';
+          } else if (numbersOnly.length === 1) {
+            formattedTimeInput = numbersOnly;
+          } else if (numbersOnly.length === 2) {
+            const hours = numbersOnly.slice(0, 2);
+            formattedTimeInput = `${hours}:`;
+          } else if (numbersOnly.length <= 4) {
+            const hours = numbersOnly.slice(0, 2);
+            const minutes = numbersOnly.slice(2, 4);
+            formattedTimeInput = `${hours}:${minutes}`;
+          } else {
+            const hours = numbersOnly.slice(0, 2);
+            const minutes = numbersOnly.slice(2, 4);
+            formattedTimeInput = `${hours}:${minutes}`;
+          }
+        }
+        
+        const updated = {
+          ...prev,
+          [name]: name === 'eventTimeInput' ? formattedTimeInput : value
+        };
+        
+        const timeInput = name === 'eventTimeInput' ? formattedTimeInput : prev.eventTimeInput;
+        const meridiem = name === 'eventTimeMeridiem' ? value : prev.eventTimeMeridiem;
+        
+        // Validate hour
+        const [hourStr, minuteStr] = (timeInput || '').split(':');
+        const hour = parseInt(hourStr, 10);
+        const minute = minuteStr ? parseInt(minuteStr, 10) : 0;
+        
+        if (timeInput && (Number.isNaN(hour) || hour < 1 || hour > 12 || (minuteStr && (Number.isNaN(minute) || minute < 0 || minute > 59)))) {
+          setEventTimeError(true);
+          updated.eventTime = '';
+        } else {
+          setEventTimeError(false);
+          // Ensure minutes are always 2 digits
+          const formattedMinutes = minuteStr ? (minuteStr.length === 1 ? `0${minuteStr}` : minuteStr) : '00';
+          const finalTimeInput = hourStr ? `${hourStr}:${formattedMinutes}` : timeInput;
+          updated.eventTime = convertTo24Hour(finalTimeInput, meridiem);
+        }
+        return updated;
+      }
+
+      return {
+        ...prev,
+        [name]: value
+      };
+    });
     setError('');
   };
 
@@ -130,6 +225,18 @@ const EventManagement = () => {
       return;
     }
 
+    const speakersList = formData.speakerType === 'single'
+      ? [formData.speakerInput.trim()]
+      : formData.speakerInput
+          .split('\n')
+          .map(name => name.trim())
+          .filter(Boolean);
+
+    if (!speakersList.length) {
+      setError('Please provide at least one speaker name');
+      return;
+    }
+
 
     try {
       setLoading(true);
@@ -144,6 +251,8 @@ const EventManagement = () => {
       eventData.append('eventDate', formData.eventDate);
       eventData.append('eventTime', formData.eventTime);
       eventData.append('location', formData.location.trim());
+      eventData.append('speakerType', formData.speakerType);
+      eventData.append('speakers', JSON.stringify(speakersList));
       
       if (formData.image) {
         eventData.append('image', formData.image);
@@ -170,9 +279,14 @@ const EventManagement = () => {
           youtubeLink: '',
           eventDate: '',
           eventTime: '',
+          eventTimeInput: '',
+          eventTimeMeridiem: 'AM',
           location: '',
+          speakerType: 'single',
+          speakerInput: '',
           image: null
         });
+        setEventTimeError(false);
         
         // Refresh events list
         await fetchEvents();
@@ -261,6 +375,12 @@ const EventManagement = () => {
             {event.shortDescription}
           </p>
           <div className="space-y-1 mb-3">
+            {event.speakers?.length > 0 && (
+              <div className="flex items-center text-sm text-gray-500">
+                <FiUser className="w-4 h-4 mr-2" />
+                <span>{event.speakers.join(', ')}</span>
+              </div>
+            )}
             {event.eventDate && (
               <div className="flex items-center text-sm text-gray-500">
                 <FiClock className="w-4 h-4 mr-2" />
@@ -401,6 +521,51 @@ const EventManagement = () => {
                 </select>
               </div>
 
+              {/* Speaker Configuration */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Speaker Mode *
+                  </label>
+                  <select
+                    name="speakerType"
+                    value={formData.speakerType}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    required
+                  >
+                    <option value="single">Single Speaker</option>
+                    <option value="multiple">Multiple Speakers</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {formData.speakerType === 'single' ? 'Speaker Name *' : 'Speakers List *'}
+                  </label>
+                  {formData.speakerType === 'single' ? (
+                    <input
+                      type="text"
+                      name="speakerInput"
+                      value={formData.speakerInput}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      placeholder="Enter speaker full name"
+                      required
+                    />
+                  ) : (
+                    <textarea
+                      name="speakerInput"
+                      value={formData.speakerInput}
+                      onChange={handleInputChange}
+                      rows={4}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-y"
+                      placeholder="Enter each speaker on a new line"
+                      required
+                    />
+                  )}
+                </div>
+              </div>
+
               {/* Short Description */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -452,13 +617,28 @@ const EventManagement = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Event Time
                 </label>
-                <input
-                  type="time"
-                  name="eventTime"
-                  value={formData.eventTime}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
+                <div className="flex gap-3">
+                  <input
+                    type="text"
+                    name="eventTimeInput"
+                    value={formData.eventTimeInput}
+                    onChange={handleInputChange}
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 ${eventTimeError ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-green-500 focus:border-transparent'}`}
+                    placeholder="HH:MM"
+                  />
+                  <select
+                    name="eventTimeMeridiem"
+                    value={formData.eventTimeMeridiem}
+                    onChange={handleInputChange}
+                    className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+                {eventTimeError && (
+                  <p className="mt-2 text-sm text-red-600">Hour must be between 1 and 12.</p>
+                )}
               </div>
 
               {/* Location */}
@@ -673,12 +853,32 @@ const EventManagement = () => {
                   <div className="bg-gray-50 rounded-lg p-4 mb-6">
                     <h3 className="text-sm font-semibold text-gray-700 mb-3">Event Details</h3>
                     <div className="space-y-2">
+                      {viewingEvent.speakers?.length > 0 && (
+                        <div className="flex items-center text-gray-700">
+                          <FiUser className="w-4 h-4 mr-2 text-gray-500" />
+                          <span>{viewingEvent.speakers.join(', ')}</span>
+                        </div>
+                      )}
                       {viewingEvent.eventDate && (
                         <div className="flex items-center text-gray-700">
                           <FiClock className="w-4 h-4 mr-2 text-gray-500" />
                           <span>{formatDate(viewingEvent.eventDate)}</span>
                           {viewingEvent.eventTime && (
-                            <span className="ml-2">at {viewingEvent.eventTime}</span>
+                            <span className="ml-2">at {(() => {
+                              const timeString = viewingEvent.eventTime;
+                              if (!timeString) return 'TBA';
+                              const timeParts = timeString.split(':');
+                              if (timeParts.length >= 2) {
+                                let hours = parseInt(timeParts[0], 10);
+                                const minutes = timeParts[1];
+                                const ampm = hours >= 12 ? 'PM' : 'AM';
+                                hours = hours % 12;
+                                hours = hours ? hours : 12;
+                                const minutesStr = minutes.length === 1 ? `0${minutes}` : minutes;
+                                return `${hours}:${minutesStr} ${ampm}`;
+                              }
+                              return timeString;
+                            })()}</span>
                           )}
                         </div>
                       )}

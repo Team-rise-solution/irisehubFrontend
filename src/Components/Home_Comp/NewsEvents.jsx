@@ -32,32 +32,40 @@ function NewsEvents() {
         const eventsResponse = await eventAPI.getAll({ limit: 1000 });
         const allEvents = eventsResponse?.data?.data || [];
         
-        // Filter out expired events
-        const now = new Date();
+        // Filter for "Coming Soon" events only (show all Coming Soon events regardless of date)
+        // Admin has explicitly marked them as "Coming Soon", so we trust their choice
         const validEvents = allEvents.filter(event => {
-          // If no event date, keep it (admin's choice)
-          if (!event.eventDate) {
-            return true;
-          }
-          
-          // Check if event date has passed
-          const eventDate = new Date(event.eventDate);
-          
-          // If event has both date and time, combine them for precise comparison
-          if (event.eventTime) {
-            const [hours, minutes] = event.eventTime.split(':');
-            eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-          } else {
-            // If only date, set to end of day (23:59:59)
-            eventDate.setHours(23, 59, 59, 999);
-          }
-          
-          // Keep event if it's in the future or has no specific time
-          return eventDate > now;
+          // Only show events marked as 'Coming Soon' by admin
+          return event.type === 'Coming Soon';
         });
         
         eventsData = validEvents;
         console.log('Events fetched successfully:', eventsData.length, 'items (filtered from', allEvents.length, 'total)');
+        console.log('Event types breakdown:', {
+          'Coming Soon': allEvents.filter(e => e.type === 'Coming Soon').length,
+          'Past Event': allEvents.filter(e => e.type === 'Past Event').length
+        });
+        
+        // Detailed logging for debugging
+        const comingSoonEvents = allEvents.filter(e => e.type === 'Coming Soon');
+        console.log('Coming Soon events details:', comingSoonEvents.map(e => ({
+          title: e.title,
+          type: e.type,
+          eventDate: e.eventDate,
+          eventTime: e.eventTime,
+          now: new Date().toISOString(),
+          eventDateObj: e.eventDate ? new Date(e.eventDate).toISOString() : null,
+          isFuture: e.eventDate ? (() => {
+            const eventDate = new Date(e.eventDate);
+            if (e.eventTime) {
+              const [hours, minutes] = e.eventTime.split(':');
+              eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            } else {
+              eventDate.setHours(23, 59, 59, 999);
+            }
+            return eventDate > new Date();
+          })() : true
+        })));
       } catch (eventsError) {
         console.error('Error fetching events:', eventsError);
       }
@@ -107,11 +115,7 @@ function NewsEvents() {
     if (item.contentType === 'news') {
       navigate(`/news/${item._id}`);
     } else if (item.contentType === 'event') {
-      if (item.type === 'Coming Soon') {
-        navigate(`/upcoming-events/${item._id}`);
-      } else {
-        navigate(`/past-events/${item._id}`);
-      }
+      navigate(`/events/${item._id}`);
     }
   };
 

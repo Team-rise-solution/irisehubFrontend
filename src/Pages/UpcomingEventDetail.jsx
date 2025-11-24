@@ -31,7 +31,10 @@ const UpcomingEventDetail = () => {
     email: '',
     location: '',
     mobileNumber: '',
-    notes: ''
+    gender: '',
+    educationBackground: '',
+    employmentStatus: '',
+    expectation: ''
   });
 
   useEffect(() => {
@@ -100,7 +103,10 @@ const UpcomingEventDetail = () => {
           email: '',
           location: '',
           mobileNumber: '',
-          notes: ''
+          gender: '',
+          educationBackground: '',
+          employmentStatus: '',
+          expectation: ''
         });
         
         // Hide success message after 3 seconds
@@ -133,7 +139,10 @@ const UpcomingEventDetail = () => {
       email: '',
       location: '',
       mobileNumber: '',
-      notes: ''
+      gender: '',
+      educationBackground: '',
+      employmentStatus: '',
+      expectation: ''
     });
   };
 
@@ -294,6 +303,38 @@ const UpcomingEventDetail = () => {
 
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Gender *
+                              </label>
+                              <select
+                                name="gender"
+                                value={bookingForm.gender}
+                                onChange={handleBookingFormChange}
+                                required
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                              >
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                              </select>
+                            </div>
+
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Education Background *
+                              </label>
+                              <input
+                                type="text"
+                                name="educationBackground"
+                                value={bookingForm.educationBackground}
+                                onChange={handleBookingFormChange}
+                                required
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                placeholder="e.g. BBA Finance"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Mobile Number *
                               </label>
                               <input
@@ -309,15 +350,33 @@ const UpcomingEventDetail = () => {
 
                             <div>
                               <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Additional Notes
+                                Employment Status *
+                              </label>
+                              <select
+                                name="employmentStatus"
+                                value={bookingForm.employmentStatus}
+                                onChange={handleBookingFormChange}
+                                required
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                              >
+                                <option value="">Select status</option>
+                                <option value="employed">Employed</option>
+                                <option value="unemployed">Unemployed</option>
+                              </select>
+                            </div>
+
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 mb-1">
+                                Expectations *
                               </label>
                               <textarea
-                                name="notes"
-                                value={bookingForm.notes}
+                                name="expectation"
+                                value={bookingForm.expectation}
                                 onChange={handleBookingFormChange}
                                 rows={3}
+                                required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Any additional information..."
+                                placeholder="What do you hope to gain from this session?"
                               />
                             </div>
 

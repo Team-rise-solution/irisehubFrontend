@@ -81,13 +81,31 @@ const UpcomingEvents = () => {
     });
   };
 
-  const formatEventTime = (dateString) => {
-    if (!dateString) return 'TBA';
-    return new Date(dateString).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    });
+  const formatEventTime = (timeString) => {
+    if (!timeString) return 'TBA';
+    
+    // If it's a date string, format it
+    if (timeString.includes('T') || timeString.includes('-')) {
+      return new Date(timeString).toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+    
+    // If it's a time string (HH:MM or HH:MM:SS), convert to 12-hour format
+    const timeParts = timeString.split(':');
+    if (timeParts.length >= 2) {
+      let hours = parseInt(timeParts[0], 10);
+      const minutes = timeParts[1];
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      const minutesStr = minutes.length === 1 ? `0${minutes}` : minutes;
+      return `${hours}:${minutesStr} ${ampm}`;
+    }
+    
+    return timeString;
   };
 
   const handleEventClick = (event) => {
@@ -176,7 +194,7 @@ const UpcomingEvents = () => {
                           )}
                           {event.eventTime && (
                             <span className="text-xs text-gray-400">
-                              {event.eventTime}
+                              {formatEventTime(event.eventTime)}
                             </span>
                           )}
                         </div>
