@@ -19,8 +19,9 @@ function PublicHeroSection (){
             Link : "/ecosystem"
         },
         "/about" : {
-            Image : AboutHero,
-            Title : "About Us",
+            // Image : AboutHero,
+            Video : "https://www.youtube.com/embed/Tymk-39Unh8?autoplay=1&mute=1&loop=1&playlist=Tymk-39Unh8&controls=0&showinfo=0&rel=0&modestbranding=1",
+            // Title : "About Us",
             Link : "/about"
         },
         "/areasWe" : {
@@ -48,15 +49,44 @@ function PublicHeroSection (){
             Title : "Rise Academy",
             Link : "/riseAcademy"
         },
+        "/partners" : {
+            Image : AboutHero,
+            Title : "Partners",
+            Link : "/partners"
+        },
     }
     const CurrentPage = HeroSectionData[path] || {
         Title : "About Us",
         Image : AboutHero,
     }
-    return <div className="w-full relative h-[450px] md:h-[550px]">
+    return <div className="w-full relative h-[450px] md:h-[550px] overflow-hidden">
                 <Header />
-                <img className="w-full h-full object-cover" src={CurrentPage.Image} alt={CurrentPage.Title} />
-                <div className="w-full h-full absolute flex justify-center bg-black/30 top-0">
+                {CurrentPage.Video ? (
+                    <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+                        <iframe 
+                            className="absolute top-0 left-0"
+                            src={CurrentPage.Video}
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
+                            title={CurrentPage.Title}
+                            style={{ 
+                                pointerEvents: 'none',
+                                width: '100vw',
+                                height: '56.25vw',
+                                minHeight: '100%',
+                                minWidth: '177.78vh',
+                                position: 'absolute',
+                                top: '50%',
+                                left: '50%',
+                                transform: 'translate(-50%, -50%)'
+                            }}
+                            frameBorder="0"
+                        />
+                    </div>
+                ) : (
+                    <img className="w-full h-full object-cover" src={CurrentPage.Image} alt={CurrentPage.Title} />
+                )}
+                <div className="w-full h-full absolute flex justify-center bg-black/30 top-0 z-10">
                 <div className="flex absolute bottom-20 items-center">
                     <h1 className="md:text-[70px] text-[35px] font-semibold  text-white"> {CurrentPage.Title} </h1>
                     {path !== "/startups" && (

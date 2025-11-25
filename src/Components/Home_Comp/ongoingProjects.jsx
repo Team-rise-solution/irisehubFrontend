@@ -2,7 +2,7 @@ import { HiArrowSmRight } from "react-icons/hi";
 import { FaClock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import BICSomali from "../../Images/About-Images/BIC Somali.png";
-import Dalbile from "../../Images/About-Images/Dalbile.png";
+import AWE from "../../Images/About-Images/AWE.png";
 import Nagaasho from "../../Images/HomeComp-Images/NagaashoLogo.png"
 
 function OngoingProjects() {
@@ -16,9 +16,9 @@ function OngoingProjects() {
       // LaunchDate: "Q2 2024"
     },
     {
-      Title:  "Dalbile Youth Initiative",
-      Desc : "Dalbile was a youth empowerment project funded by the EU through UNFPA and implemented  with iRise.It took place in Jubbaland, Garowe, South West, BRA, Hirshabelle, Galmudug, and  Puntland. The rollout lasted 36 months and the execution stage is already completed.",
-      Image: Dalbile,
+      Title: "AWE (Academy for Women Entrepreneurs)",
+      Desc : "AWE is a U.S. Embassy funded program in Banadir that supports women to start and grow small businesses through practical training and networks. It strengthens women's economic participation by building skills, confidence, and access to local opportunities in line with the U.S. National Strategy on Gender Equity and Equality. The rollout covers 2 years and the execution stage is ongoing.",
+      Image: AWE,
       Status: "Ongoing",
       // LaunchDate: "Q3 2024"
     },

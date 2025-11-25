@@ -40,9 +40,9 @@ function Home (){
         <Ecosystem />
         <OngoingProjects />
         <Impacts />
-        <div className="mt-30 pb-[100px]">
+        {/* <div className="mt-30 pb-[100px]">
             <PillarApproach />
-        </div>
+        </div> */}
         {/* <Sectors /> */}
         {/* <Section4 /> */}
         <NewsEvents onEventClicked = {HandleOpenNews} />

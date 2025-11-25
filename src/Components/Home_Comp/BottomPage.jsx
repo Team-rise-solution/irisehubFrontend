@@ -2,7 +2,7 @@ import SOlar from "../../Images/HomeComp-Images/Solar.jpg"
 import { HiArrowSmRight } from "react-icons/hi";
 // Pages hero image
 import EcosystemHeroImage from "../../Images/Ecosystem-Images/EcosystemHero.jpg"
-import AboutHero from "../../Images/About-Images/AboutHero.jpg"
+import AboutHero from "../../Images/About-Images/iRisehub.jpg"
 import AresWeFocusHero from "../../Images/AreasWeFocus-Images/AreasWeFocusHero.jpg"
 import CommunityHero from "../../Images/Community-Images/CommunityHero.jpg"
 import StartupsHero from "../../Images/StartUps-Images/StartupsHero.jpg"
