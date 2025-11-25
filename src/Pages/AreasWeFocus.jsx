@@ -78,10 +78,10 @@ function AreasWeFocus() {
         }
       `}</style>
         <PublicHeroSection />
-        <Intro />
+        {/* <Intro /> */}
         <AreasSection />
         <Footer />
-        <BottomPage />
+        {/* <BottomPage /> */}
     </div>
   )
 }

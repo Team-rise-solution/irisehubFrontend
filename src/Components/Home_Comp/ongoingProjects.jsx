@@ -15,13 +15,13 @@ function OngoingProjects() {
       Status: "Ongoing",
       // LaunchDate: "Q2 2024"
     },
-    {
-      Title: "AWE (Academy for Women Entrepreneurs)",
-      Desc : "AWE is a U.S. Embassy funded program in Banadir that supports women to start and grow small businesses through practical training and networks. It strengthens women's economic participation by building skills, confidence, and access to local opportunities in line with the U.S. National Strategy on Gender Equity and Equality. The rollout covers 2 years and the execution stage is ongoing.",
-      Image: AWE,
-      Status: "Ongoing",
-      // LaunchDate: "Q3 2024"
-    },
+    // {
+    //   Title: "AWE (Academy for Women Entrepreneurs)",
+    //   Desc : "AWE is a U.S. Embassy funded program in Banadir that supports women to start and grow small businesses through practical training and networks. It strengthens women's economic participation by building skills, confidence, and access to local opportunities in line with the U.S. National Strategy on Gender Equity and Equality. The rollout covers 2 years and the execution stage is ongoing.",
+    //   Image: AWE,
+    //   Status: "Ongoing",
+    //   // LaunchDate: "Q3 2024"
+    // },
     {
       Title: "BIC Somali",
       Desc : "Business Incubators is an EU funded UNIDO program that supports Somali youth with tech  based and innovation driven incubation. It operates across Somalia, with iRise Hub incubating  25 startups per cohort. The project runs in three 12 month cohorts and is now in the third phase  of the second cohort, where selected entrepreneurs receive equipment grants worth 2,000 to  9,000 dollars.",

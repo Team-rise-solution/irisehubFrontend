@@ -1,6 +1,6 @@
 import EcosystemHeroImage from "../Images/Ecosystem-Images/EcosystemHero.jpg"
 import AboutHero from "../Images/About-Images/AboutHero.jpg"
-import AresWeFocusHero from "../Images/AreasWeFocus-Images/AreasWeFocusHero.jpg"
+import AresWeFocusHero from "../Images/AreasWeFocus-Images/AreasWeFocusHeroImage.png"
 import CommunityHero from "../Images/Community-Images/CommunityHero.jpg"
 import StartupsHero from "../Images/StartUps-Images/StartupsHero.png"
 import NewsEventsHero from "../Images/NewsEvents-Images/NewsletterHeroImage.jpg"
@@ -59,7 +59,9 @@ function PublicHeroSection (){
         Title : "About Us",
         Image : AboutHero,
     }
-    return <div className="w-full relative h-[450px] md:h-[550px] overflow-hidden">
+    const isAreasWeFocus = path === "/areasWe";
+    
+    return <div className={`w-full relative h-[450px] md:h-[550px] overflow-hidden ${isAreasWeFocus ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : ''}`}>
                 <Header />
                 {CurrentPage.Video ? (
                     <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
@@ -84,16 +86,50 @@ function PublicHeroSection (){
                         />
                     </div>
                 ) : (
-                    <img className="w-full h-full object-cover" src={CurrentPage.Image} alt={CurrentPage.Title} />
+                    <div className="relative w-full h-full">
+                        {isAreasWeFocus ? (
+                            <>
+                                {/* Background gradient that matches the image */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#F24405]/10 via-transparent to-[#F24405]/5"></div>
+                                
+                                {/* Image displayed fully */}
+                                <div className="absolute top-10 md:top-16 left-0 right-0 bottom-0 flex items-center justify-center">
+                                    <img 
+                                        className="w-full h-full object-contain" 
+                                        src={CurrentPage.Image} 
+                                        alt={CurrentPage.Title} 
+                                    />
+                                </div>
+                                
+                                {/* Subtle overlay for text readability */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+                            </>
+                        ) : (
+                            <img className="w-full h-full object-cover" src={CurrentPage.Image} alt={CurrentPage.Title} />
+                        )}
+                    </div>
                 )}
-                <div className="w-full h-full absolute flex justify-center bg-black/30 top-0 z-10">
-                <div className="flex absolute bottom-20 items-center">
-                    <h1 className="md:text-[70px] text-[35px] font-semibold  text-white"> {CurrentPage.Title} </h1>
-                    {path !== "/startups" && (
-                        <div className="w-[70px] h-[70px] border-2 -ml-10 border-white skew-x-[-20deg]"></div>
-                    )}
-                </div>
-                </div>
+                
+                {/* Overlay for Areas We Focus */}
+                {isAreasWeFocus ? (
+                    <div className="w-full h-full absolute flex justify-center items-end pb-12 md:pb-16 top-0 z-10 px-5 md:px-10">
+                        <div className="text-center max-w-4xl mx-auto">
+                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3 drop-shadow-2xl">
+                                {CurrentPage.Title}
+                            </h1>
+                            <div className="w-20 h-1 bg-[#F24405] mx-auto rounded-full"></div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="w-full h-full absolute flex justify-center bg-black/30 top-0 z-10">
+                        <div className="flex absolute bottom-20 items-center">
+                            <h1 className="md:text-[70px] text-[35px] font-semibold  text-white"> {CurrentPage.Title} </h1>
+                            {path !== "/startups" && (
+                                <div className="w-[70px] h-[70px] border-2 -ml-10 border-white skew-x-[-20deg]"></div>
+                            )}
+                        </div>
+                    </div>
+                )}
         </div>
 }
 export default PublicHeroSection

@@ -80,7 +80,7 @@ function AboutUs() {
       </div>
 
       <Footer />
-      <BottomPage />
+      {/* <BottomPage /> */}
     </div>
   );
 }

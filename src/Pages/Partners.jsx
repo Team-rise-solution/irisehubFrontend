@@ -9,7 +9,7 @@ function Partners() {
       <PublicHeroSection />
       <PartnersSection />
       <Footer />
-      <BottomPage />
+      {/* <BottomPage /> */}
     </div>
   );
 }

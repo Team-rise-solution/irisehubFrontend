@@ -10,19 +10,19 @@ function Ecosystem() {
       Name: "Rise Academy",
       Desc: "A specialized learning hub focused on coding and programming, empowering youth with digital skills for the future of work.",
       Image: RiseAcademy,
-      Link: "/ecosystem/rise-academy"
+      Link: "https://www.riseacademy.so/"
     },
     {
       Name: "Minbar",
       Desc: "A media and knowledge-sharing platform where news, updates, speeches, and thought pieces from politicians, government leaders, and experts are shared to inform and engage the ecosystem.",
       Image: Minbar,
-      Link: "#"
+      Link: "https://minbarspace.com/"
     },
     {
       Name: "Mogadishu Tech Summit",
       Desc: "Somalia's largest technology and innovation event, connecting entrepreneurs, investors, and policymakers.",
       Image: MogadishuTech,
-      Link: "#"
+      Link: "https://mts2024.com/"
     }
   ];
 

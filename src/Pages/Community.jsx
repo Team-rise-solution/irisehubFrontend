@@ -18,7 +18,7 @@ function Community (){
             <SectionTwo Image = {AThar} TitleOne="Seedbox" TitleTwo="Equity investments in tech startups" Btn = "VISIT ATHAR.COM" link="/about" Desc="Seedbox is dedicated to catalyzing investment in technological startups poised for strategic growth over the medium and long term. Recognizing their potential, Seedbox provides support to these startups, nurturing their development in both business acumen and technological innovation, thereby preparing them for future industrialization. Through strategic investment and mentorship, the aim is to unlock the full potential of these startups, fostering their growth and contribution to the technological landscape" /> */}
         </div>
         <Footer />
-        <BottomPage />
+        {/* <BottomPage /> */}
     </div>
 }
 export default Community

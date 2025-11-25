@@ -1,4 +1,4 @@
-import Image1 from "../../Images/Community-Images/image.png";
+import Image1 from "../../Images/HomeComp-Images/img-4.jpg";
 
 function SectionTop() {
   return (

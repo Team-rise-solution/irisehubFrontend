@@ -32,7 +32,7 @@ function Ecosystem() {
       <EcosystemSection />
       <ImplementingProjects />
       <Footer />
-      <BottomPage />
+      {/* <BottomPage /> */}
     </div>
   );
 }

@@ -24,7 +24,7 @@ function Startups (){
             <SectionBottom  />
         </div>
             <Footer />
-            <BottomPage />
+            {/* <BottomPage /> */}
     </div>
 }
 export default Startups

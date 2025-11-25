@@ -48,7 +48,7 @@ function Home (){
         <NewsEvents onEventClicked = {HandleOpenNews} />
         <Partners />
         <Footer />
-        <BottomPage />
+        {/* <BottomPage /> */}
         {
             ShowNewsInfo && (
                 <div className="w-full h-screen  z-10 bg-black/80 fixed top-0">
