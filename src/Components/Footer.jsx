@@ -45,11 +45,21 @@ function Footer (){
                     <h1 className="md:mt-10 mt-2 text-gray-600"> At iRise Hub, we build and scale next-generation businesses and industrial ecosystems to catalyse sustainable growth and innovation across Somalia, Africa, and beyond.</h1>
                     <div className="flex justify-start text-gray-800 gap-10 mt-4 lg:absolute w-full lg:bottom-0">
                         <ul className="leading-[35px]">
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> About </li>
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> Ecosystem </li>
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> Areas We Focus </li>
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> Community </li>
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> Startups</li>
+                            <li>
+                                <Link to="/about" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> About </Link>
+                            </li>
+                            <li>
+                                <Link to="/ecosystem" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> Ecosystem </Link>
+                            </li>
+                            <li>
+                                <Link to="/areasWe" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> Areas We Focus </Link>
+                            </li>
+                            <li>
+                                <Link to="/community" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> Community </Link>
+                            </li>
+                            <li>
+                                <Link to="/startups" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> Startups</Link>
+                            </li>
                         </ul>
                         {/* <ul className="leading-[35px]">
                             <li className="hover:border-b-[1.5px] hover:border-b-black"> Rise Academy </li>
@@ -58,9 +68,15 @@ function Footer (){
                             <li className="hover:border-b-[1.5px] hover:border-b-black"> Kobciye </li>
                         </ul> */}
                         <ul className="leading-[35px]">
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> Event And News </li>
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> Terms & Condition </li>
-                            <li className="hover:border-b-[1.5px] hover:border-b-black"> Privacy Policy </li>
+                            <li>
+                                <Link to="/newsletter" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> Event And News </Link>
+                            </li>
+                            <li>
+                                <a href="#" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> Terms & Condition </a>
+                            </li>
+                            <li>
+                                <a href="#" className="hover:border-b-[1.5px] hover:border-b-black inline-block"> Privacy Policy </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
