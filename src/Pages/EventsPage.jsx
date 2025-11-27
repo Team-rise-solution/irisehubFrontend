@@ -220,7 +220,7 @@ const EventsPage = () => {
                                 <FiClock className="text-gray-400 text-sm mr-2" />
                                 <div className="leading-tight">
                                   {event.eventDate && (
-                                    <p className="font-medium">{formatEventDate(event.eventDate)}</p>
+                                  <p className="font-medium">{formatEventDate(event.eventDate)}</p>
                                   )}
                                   {event.eventTime && (
                                     <p className="text-xs text-gray-400">{formatEventTime(event.eventTime)}</p>
@@ -311,7 +311,7 @@ const EventsPage = () => {
                                 <FiClock className="text-gray-400 text-sm mr-2" />
                                 <div className="leading-tight">
                                   {event.eventDate && (
-                                    <p className="font-medium">{formatEventDate(event.eventDate)}</p>
+                                  <p className="font-medium">{formatEventDate(event.eventDate)}</p>
                                   )}
                                   {event.eventTime && (
                                     <p className="text-xs text-gray-400">{formatEventTime(event.eventTime)}</p>

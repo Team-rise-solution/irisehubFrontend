@@ -209,9 +209,9 @@ const PastEventDetail = () => {
                             </p>
                         </div>
                         {event.eventTime && (
-                            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300">
+                        <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300">
                                 Event time: {formatEventTime(event.eventTime)}
-                            </p>
+                        </p>
                         )}
                     </div>
 

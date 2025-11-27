@@ -296,9 +296,9 @@ const EventDetail = () => {
               </p>
             </div>
             {event.eventTime && (
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300">
                 Event time: {formatEventTime(event.eventTime)}
-              </p>
+            </p>
             )}
           </div>
 
@@ -346,11 +346,11 @@ const EventDetail = () => {
                 )
               ) : event.image ? (
                 <div className="absolute top-0 left-0 w-full h-full">
-                  <img
+                <img
                     className="w-full h-full object-cover"
-                    src={event.image}
-                    alt={event.title}
-                  />
+                  src={event.image}
+                  alt={event.title}
+                />
                   <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                     <div className="text-center">
                       <FiPlay className="text-4xl sm:text-6xl mb-4 mx-auto text-white" />
