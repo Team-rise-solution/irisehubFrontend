@@ -9,7 +9,7 @@ import {
   FiUpload,
   FiCalendar,
   FiMapPin,
-  FiYoutube
+  FiVideo
 } from 'react-icons/fi';
 import { eventAPI } from '../services/api';
 
@@ -359,23 +359,23 @@ const AddEvent = () => {
               </div>
             </div>
 
-            {/* YouTube Link (for Past Events) */}
+            {/* Video Link or Embed (for Past Events) */}
             {formData.type === 'Past Event' && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <FiYoutube className="inline mr-2" />
-                  YouTube Video Link (Optional)
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                  <FiVideo className="inline mr-2" />
+                  Video Link or Embed (Optional)
                 </label>
-                <input
-                  type="url"
+                <textarea
                   name="youtubeLink"
                   value={formData.youtubeLink}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="https://www.youtube.com/watch?v=..."
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
+                  placeholder="Paste a YouTube/Vimeo link, direct .mp4 URL, or iframe embed code"
                 />
                 <p className="text-sm text-gray-500 mt-1">
-                  Add a YouTube link to show a video for past events
+                  We&apos;ll automatically detect YouTube/Vimeo links or extract the src from iframe embed code.
                 </p>
               </div>
             )}

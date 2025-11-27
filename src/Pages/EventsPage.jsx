@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiCalendar, FiUser, FiMapPin, FiClock, FiArrowRight, FiImage } from 'react-icons/fi';
+import { FiCalendar, FiMapPin, FiClock, FiArrowRight, FiImage } from 'react-icons/fi';
 import { eventAPI } from '../services/api';
 import Header from '../Components/Home_Comp/Header';
 import Footer from '../Components/Footer';
@@ -173,14 +173,14 @@ const EventsPage = () => {
               {upcomingEvents.map((event, index) => (
                 <div key={event._id} className="group cursor-pointer">
                   <Link to={`/events/${event._id}`}>
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform group-hover:-translate-y-3 group-hover:scale-105">
+                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-300">
                       {/* Cover Image */}
                       <div className="relative aspect-w-16 aspect-h-9 overflow-hidden">
                         {event.image ? (
                           <img
                             src={event.image}
                             alt={event.title}
-                            className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                            className="w-full h-64 object-cover"
                           />
                         ) : (
                           <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -200,7 +200,7 @@ const EventsPage = () => {
                         
                         {/* Play Icon Overlay - Top Left Corner */}
                         <div className="absolute top-4 left-4">
-                          <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                          <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center shadow-lg">
                             <FiArrowRight className="w-5 h-5 text-gray-800 ml-1" />
                           </div>
                         </div>
@@ -209,46 +209,33 @@ const EventsPage = () => {
                       {/* Content */}
                       <div className="p-6">
                         {/* Event Title */}
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
                           {event.title}
                         </h3>
                         
-                        {/* Speakers */}
-                        <div className="flex items-center mb-2">
-                          <FiUser className="text-gray-400 text-sm mr-2" />
-                          <span className="text-sm text-gray-500">
-                            {event.speakers?.length ? event.speakers.join(', ') : 'iRiseHub Team'}
-                          </span>
-                        </div>
-                        
-                        
-                        {/* Event Date & Time */}
-                        {event.eventDate && (
-                          <div className="flex items-center mb-2">
-                            <FiClock className="text-gray-400 text-sm mr-2" />
-                            <div className="flex flex-col">
-                              <span className="text-sm text-gray-500 font-medium">
-                                {formatEventDate(event.eventDate)}
-                              </span>
-                              <span className="text-xs text-gray-400">
-                                {formatEventTime(event.eventDate)}
-                              </span>
-                            </div>
+                        {(event.eventDate || event.eventTime || event.location) && (
+                          <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-gray-500">
+                            {(event.eventDate || event.eventTime) && (
+                              <div className="flex items-center">
+                                <FiClock className="text-gray-400 text-sm mr-2" />
+                                <div className="leading-tight">
+                                  {event.eventDate && (
+                                    <p className="font-medium">{formatEventDate(event.eventDate)}</p>
+                                  )}
+                                  {event.eventTime && (
+                                    <p className="text-xs text-gray-400">{formatEventTime(event.eventTime)}</p>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            {event.location && (
+                              <div className="flex items-center">
+                                <FiMapPin className="text-gray-400 text-sm mr-2" />
+                                <span>{event.location}</span>
+                              </div>
+                            )}
                           </div>
                         )}
-                        
-                        {/* Location */}
-                        {event.location && (
-                          <div className="flex items-center mb-4">
-                            <FiMapPin className="text-gray-400 text-sm mr-2" />
-                            <span className="text-sm text-gray-500">{event.location}</span>
-                          </div>
-                        )}
-                        
-                        {/* Description */}
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-                          {event.shortDescription || event.fullDescription}
-                        </p>
                         
                         {/* Color-coded bottom section */}
                         <div className={`h-1 rounded-b-2xl ${
@@ -277,14 +264,14 @@ const EventsPage = () => {
               {pastEvents.map((event, index) => (
                 <div key={event._id} className="group cursor-pointer">
                   <Link to={`/events/${event._id}`}>
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform group-hover:-translate-y-3 group-hover:scale-105 opacity-90 hover:opacity-100">
+                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-300">
                       {/* Cover Image */}
                       <div className="relative aspect-w-16 aspect-h-9 overflow-hidden">
                         {event.image ? (
                           <img
                             src={event.image}
                             alt={event.title}
-                            className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
+                            className="w-full h-64 object-cover"
                           />
                         ) : (
                           <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
@@ -304,7 +291,7 @@ const EventsPage = () => {
                         
                         {/* Play Icon Overlay - Top Left Corner */}
                         <div className="absolute top-4 left-4">
-                          <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+                          <div className="w-12 h-12 bg-white bg-opacity-90 rounded-full flex items-center justify-center shadow-lg">
                             <FiArrowRight className="w-5 h-5 text-gray-800 ml-1" />
                           </div>
                         </div>
@@ -313,46 +300,33 @@ const EventsPage = () => {
                       {/* Content */}
                       <div className="p-6">
                         {/* Event Title */}
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
                           {event.title}
                         </h3>
                         
-                        {/* Speakers */}
-                        <div className="flex items-center mb-2">
-                          <FiUser className="text-gray-400 text-sm mr-2" />
-                          <span className="text-sm text-gray-500">
-                            {event.speakers?.length ? event.speakers.join(', ') : 'iRiseHub Team'}
-                          </span>
-                        </div>
-                        
-                        
-                        {/* Event Date & Time */}
-                        {event.eventDate && (
-                          <div className="flex items-center mb-2">
-                            <FiClock className="text-gray-400 text-sm mr-2" />
-                            <div className="flex flex-col">
-                              <span className="text-sm text-gray-500 font-medium">
-                                {formatEventDate(event.eventDate)}
-                              </span>
-                              <span className="text-xs text-gray-400">
-                                {formatEventTime(event.eventDate)}
-                              </span>
-                            </div>
+                        {(event.eventDate || event.eventTime || event.location) && (
+                          <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-gray-500">
+                            {(event.eventDate || event.eventTime) && (
+                              <div className="flex items-center">
+                                <FiClock className="text-gray-400 text-sm mr-2" />
+                                <div className="leading-tight">
+                                  {event.eventDate && (
+                                    <p className="font-medium">{formatEventDate(event.eventDate)}</p>
+                                  )}
+                                  {event.eventTime && (
+                                    <p className="text-xs text-gray-400">{formatEventTime(event.eventTime)}</p>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                            {event.location && (
+                              <div className="flex items-center">
+                                <FiMapPin className="text-gray-400 text-sm mr-2" />
+                                <span>{event.location}</span>
+                              </div>
+                            )}
                           </div>
                         )}
-                        
-                        {/* Location */}
-                        {event.location && (
-                          <div className="flex items-center mb-4">
-                            <FiMapPin className="text-gray-400 text-sm mr-2" />
-                            <span className="text-sm text-gray-500">{event.location}</span>
-                          </div>
-                        )}
-                        
-                        {/* Description */}
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-                          {event.shortDescription || event.fullDescription}
-                        </p>
                         
                         {/* Color-coded bottom section */}
                         <div className={`h-1 rounded-b-2xl ${

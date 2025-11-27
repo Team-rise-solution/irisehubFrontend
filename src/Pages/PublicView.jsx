@@ -14,6 +14,7 @@ import {
   FiList
 } from 'react-icons/fi';
 import { newsAPI } from '../services/api';
+import { getSpeakerNames } from '../utils/speakerUtils';
 
 const PublicView = () => {
   const navigate = useNavigate();
@@ -116,7 +117,7 @@ const PublicView = () => {
           <div className="flex items-center space-x-4">
             <span className="flex items-center">
               <FiUser className="w-4 h-4 mr-1" />
-              iRiseHub Team
+              {getSpeakerNames(item).join(', ')}
             </span>
             <span className="flex items-center">
               <FiCalendar className="w-4 h-4 mr-1" />
@@ -205,7 +206,7 @@ const PublicView = () => {
           <div className="flex items-center space-x-4">
             <span className="flex items-center">
               <FiUser className="w-4 h-4 mr-1" />
-              iRiseHub Team
+              {getSpeakerNames(item).join(', ')}
             </span>
             <span className="flex items-center">
               <FiCalendar className="w-4 h-4 mr-1" />
