@@ -10,39 +10,8 @@ import CodeLearning from "../../Images/AreasWeFocus-Images/Code Learning.jpeg"
 import Economic from "../../Images/AreasWeFocus-Images/Economic.jpg"
 import Governance from "../../Images/AreasWeFocus-Images/Governance and Civic.jpg"
 import InnovationEconomy from "../../Images/HomeComp-Images/img-2.jpeg"
-import { useEffect } from "react";
+
 function AreasSection (){
-    useEffect(() => {
-        const observerOptions = {
-          threshold: 0.1,
-          rootMargin: '0px 0px -50px 0px'
-        };
-    
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              // Handle text animations
-              if (entry.target.classList.contains('animate-on-scroll') && !entry.target.classList.contains('image-container')) {
-                entry.target.classList.add('animate-in');
-              }
-              
-              // Handle image overlay animation
-              if (entry.target.classList.contains('image-container')) {
-                const overlay = entry.target.querySelector('.image-overlay');
-                if (overlay) {
-                  overlay.classList.add('overlay-animate');
-                }
-              }
-            }
-          });
-        }, observerOptions);
-    
-        // Observe all elements with animation classes
-        const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        animatedElements.forEach(el => observer.observe(el));
-    
-        return () => observer.disconnect();
-      }, []);
      const EcosystemData = [
   {
     Icon: InnovationIcon,
@@ -127,56 +96,26 @@ function AreasSection (){
 ];
 
     return <div className="w-full mt-20 ">
-        <style>{`
-        .animate-on-scroll {
-          opacity: 0;
-          transform: translateY(50px);
-          transition: all 0.8s ease-out;
-        }
-        
-        .animate-on-scroll.animate-in {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        
-        /* Special handling for image containers */
-        .image-container.animate-on-scroll {
-          opacity: 1;
-          transform: none;
-        }
-        
-        .image-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: black;
-          transform: translateX(0);
-          transition: transform 1.2s ease-out;
-          z-index: 10;
-        }
-        
-        .image-overlay.overlay-animate {
-          transform: translateX(-100%);
-        }
-      `}</style>
-        <div className="max-w-7xl mx-auto flex  flex-col justify-center px-3 md:px-10 lg:px-30 ">
-        { EcosystemData.map((data) => {
-            return <div className="mb-20">
-                    <div className="lg:w-[800px] md:w-full w-[350px]">
-                        <h1 className="md:text-3xl text-2xl font-semibold flex items-center gap-3"> <img src={data.Icon} className="w-[35px]" alt="" /> {data.Title} </h1>
+        <div className="max-w-7xl mx-auto flex flex-col justify-center px-3 md:px-10 lg:px-30 ">
+        { EcosystemData.map((data, index) => {
+            const isEven = index % 2 === 0;
+            return <div key={index} className={`mb-20 flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} items-center gap-8 lg:gap-12`}>
+                    {/* Text Content */}
+                    <div className="flex-1 w-full lg:w-auto">
+                        <h1 className="md:text-3xl text-2xl font-semibold flex items-center gap-3"> 
+                            <img src={data.Icon} className="w-[35px]" alt="" /> 
+                            {data.Title} 
+                        </h1>
                         <p className="md:text-xl mt-4"> {data.Desc}.</p>
-                        <ul className="list-disc list-inside md:text-[18px] md:ml-5 ml-3 space-y-1 mt-5">
-                            {data.Points.map((list,index) => (
-
-                                <li key={index}> {list} </li>
+                        <ul className="list-disc list-outside md:text-[18px] ml-5 md:ml-6 space-y-2 mt-5">
+                            {data.Points.map((list, pointIndex) => (
+                                <li key={pointIndex} className="pl-2">{list}</li>
                             ))}
                         </ul>
                     </div>
-                    <div className="md:w-[650px] image-container animate-on-scroll mt-10  md:h-[500px] relative rounded-2xl overflow-hidden">
-                        <img className="w-full h-full object-cover transition-all transform duration-300 hover:scale-110" src={data.Image} alt="" />
-                        <div className="absolute inset- bg-black image-overlay"></div>
+                    {/* Image */}
+                    <div className="flex-1 w-full lg:w-auto md:w-[650px] md:h-[500px] relative rounded-2xl overflow-hidden">
+                        <img className="w-full h-full object-cover" src={data.Image} alt={data.Title} />
                     </div>
             </div>
             })}

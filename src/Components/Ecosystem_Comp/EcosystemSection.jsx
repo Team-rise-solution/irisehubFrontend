@@ -6,11 +6,10 @@ import IFFS from "../../Images/About-Images/IFFS.png"
 import Kobciye from "../../Images/About-Images/Kobciye.png"
 import Minbar from "../../Images/About-Images/Minbar.png"
 import TCI from "../../Images/About-Images/TCI.png"
-import MogadishuTech from "../../Images/About-Images/Mogadishu Tech Summit.png"
 
 function EcosystemSection (){
      const items = [
-    { Name: "Mogadishu Tech Summit", Desc: "Somalia's largest technology and innovation event, connecting entrepreneurs, investors, and policymakers.", Image: MogadishuTech },
+    { Name: "TVET Centers Initiative", Desc: "Regional hubs delivering technical training, digital literacy, and life skills for young people.", Image: TCI },
     { Name: "Rise Academy", Desc: "A specialized learning hub focused on coding and programming, empowering youth with digital skills for the future of work.", Image: RiseAcademy },
     { Name: "Minbar", Desc: "A media and knowledge-sharing platform where news, updates, speeches, and thought pieces from politicians, government leaders, and experts are shared to inform and engage the ecosystem.", Image: Minbar },
     // { Name: "AWE (Academy for Women Entrepreneurs)", Desc: "A global program empowering Somali women with entrepreneurship training, networking, and access to finance and markets.", Image: AWE },
@@ -19,7 +18,6 @@ function EcosystemSection (){
     { Name: "KOBCIYE Program", Desc: "A digital innovation platform that drives entrepreneurship and tech-based problem-solving for Somalia's digital economy.", Image: Kobciye },
     // { Name: "A Civic Space for Participation", Desc: "Safe centers providing vocational training, ICT, health counseling, and youth programs with 5,000+ youth trained.", Image:  },
     { Name: "Innovative for Food Security (IFFS)", Desc: "Agri-tech solutions such as greenhouses, drip irrigation, and windpumps to improve food production and sustainability.", Image: IFFS },
-    { Name: "TVET Centers Initiative", Desc: "Regional hubs delivering technical training, digital literacy, and life skills for young people.", Image: TCI },
     ];
     return (
         <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 mx-auto max-w-7xl py-12 md:py-16">

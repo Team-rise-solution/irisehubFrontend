@@ -1,4 +1,4 @@
-import EcosystemHeroImage from "../Images/Ecosystem-Images/EcosystemHero.jpg"
+import EcosystemHeroImage from "../Images/Ecosystem-Images/ecosystem here img.jpeg"
 import AboutHero from "../Images/About-Images/AboutHero.jpg"
 import AresWeFocusHero from "../Images/AreasWeFocus-Images/AreasWeFocusHeroImage.png"
 import CommunityHero from "../Images/Community-Images/CommunityHero.jpg"
@@ -110,17 +110,8 @@ function PublicHeroSection (){
                     </div>
                 )}
                 
-                {/* Overlay for Areas We Focus */}
-                {isAreasWeFocus ? (
-                    <div className="w-full h-full absolute flex justify-center items-end pb-12 md:pb-16 top-0 z-10 px-5 md:px-10">
-                        <div className="text-center max-w-4xl mx-auto">
-                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3 drop-shadow-2xl">
-                                {CurrentPage.Title}
-                            </h1>
-                            <div className="w-20 h-1 bg-[#F24405] mx-auto rounded-full"></div>
-                        </div>
-                    </div>
-                ) : (
+                {/* Overlay for Areas We Focus - No title */}
+                {!isAreasWeFocus && (
                     <div className="w-full h-full absolute flex justify-center bg-black/30 top-0 z-10">
                         <div className="flex absolute bottom-20 items-center">
                             <h1 className="md:text-[70px] text-[35px] font-semibold  text-white"> {CurrentPage.Title} </h1>

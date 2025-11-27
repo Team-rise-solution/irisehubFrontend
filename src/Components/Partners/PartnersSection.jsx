@@ -33,6 +33,9 @@ import Uropean from "../../Images/HomeComp-Images/Partners/Uropean.png";
 import USEmpassy from "../../Images/HomeComp-Images/Partners/US Empassy.jpg";
 import USAID from "../../Images/HomeComp-Images/Partners/USAID.jpg";
 import WorldClassScholars from "../../Images/HomeComp-Images/Partners/World Class Scholars.png";
+import PartnersImage from "../../Images/Ecosystem-Images/PartnersImage-removebg-preview.png"
+// import PartnersImage from "../../Images/Ecosystem-Images/PartnersImage.jpeg"
+
 
 function PartnersSection() {
   const partnerLogos = [
@@ -111,6 +114,19 @@ function PartnersSection() {
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#F24405]/20 rounded-2xl transition-all duration-300 pointer-events-none" />
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Partners Image Section - Bottom */}
+      <div className="max-w-7xl mx-auto mt-20 md:mt-0">
+        <div className="flex items-center justify-center p-8 md:p-12">
+          <div className="w-full max-w-3xl relative">
+            <img
+              className="w-full h-auto object-contain"
+              src={PartnersImage}
+              alt="Our Partners"
+            />
+          </div>
         </div>
       </div>
     </div>
