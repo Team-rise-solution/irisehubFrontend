@@ -16,11 +16,37 @@ function Footer (){
     return <div className=" mx-auto max-w-7xl flex flex-col lg:h-[650px] items-center justify-center ">
             <div className="w-full lg:h-[450px] py-10 lg:py-0 flex flex-col lg:flex-row  gap-10 border-b-[1.5px] pb-[30px] lg:pb-10 border-b-gray-300 mt-20 px-10 lg:px-[100px] ">
                 {/* Left */}
-                <div className="relative w-full md:ml-10 ml-6 lg:ml-0 ">
-                    <div className="md:w-[220px] ml-10 w-[150px] h-[120px] md:h-[190px]  bg-iriseColor/10 skew-x-[-40deg]"></div>
-                    <div className="w-[300px] absolute top-6 ml-5">
-                        <Link to="/"><img className="w-[200px]" src={IRiseHupLogo} alt="" /></Link>
-                        <p className="text-[14px] md:text-[16px] lg:text-[14px] mt-5 ml-10"> KM6, Opp. Pizza House, Hodan. Mogadishu, Somalia</p>
+                <div className="relative w-full md:ml-10 ml-6 lg:ml-0">
+                    <div className="md:w-[220px] ml-10 w-[150px] h-[120px] md:h-[190px] bg-iriseColor/10 skew-x-[-40deg]"></div>
+                     <div className="w-full sm:w-[360px] shadow-lg rounded-2xl p-6 absolute top-6 ml-5 bg-white/95">
+                        <div className="flex items-center gap-4">
+                            <Link to="/"><img className="w-[160px]" src={IRiseHupLogo} alt="iRise Hub" /></Link>
+                            <div className="flex-1 h-[50px] bg-gradient-to-r from-[#F24405]/20 to-transparent rounded-full blur-2xl"></div>
+                        </div>
+                        <div className="mt-6 space-y-3 text-[14px] md:text-[15px] text-gray-700">
+                            <div className="flex items-start gap-3">
+                                {/* <div className="w-10 h-10 rounded-full bg-[#F24405]/10 flex items-center justify-center text-[#F24405] font-semibold text-lg"></div> */}
+                                <p className="leading-5">KM6, Opp. Pizza House, Hodan. Mogadishu, Somalia</p>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-full bg-[#F24405]/10 flex items-center justify-center text-[#F24405] font-semibold text-lg">@</div>
+                                <a
+                                    href="mailto:hello@irisehub.so"
+                                    className="relative inline-flex leading-5 text-gray-800 transition-all duration-300 hover:text-[#F24405] after:content-[''] after:absolute after:right-0 after:-bottom-1 after:w-0 after:h-[1.5px] after:bg-[#F24405] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0"
+                                >
+                                    hello@irisehub.so
+                                </a>
+                            </div>
+                            <div className="flex items-start gap-3">
+                                <div className="w-10 h-10 rounded-full bg-[#F24405]/10 flex items-center justify-center text-[#F24405] font-semibold text-lg">☎</div>
+                                <a
+                                    href="tel:+252771826431"
+                                    className="relative inline-flex leading-5 text-gray-800 transition-all duration-300 hover:text-[#F24405] after:content-[''] after:absolute after:right-0 after:-bottom-1 after:w-0 after:h-[1.5px] after:bg-[#F24405] after:transition-all after:duration-300 hover:after:w-full hover:after:left-0"
+                                >
+                                    +252 77 182 6431
+                                </a>
+                            </div>
+                        </div>
                     </div>
                     <div className="flex gap-5 items-center lg:mt-0 mt-16 lg:absolute bottom-0">
                         {socialMediaLinks.map((social, i) => {
