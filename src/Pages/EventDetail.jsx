@@ -4,6 +4,7 @@ import { FiArrowLeft, FiPlay, FiCalendar, FiUser, FiMapPin, FiClock, FiImage, Fi
 import { eventAPI, bookingAPI } from '../services/api';
 import Header from '../Components/Home_Comp/Header';
 import Footer from '../Components/Footer';
+import { getSpeakerNames } from '../utils/speakerUtils';
 
 const EventDetail = () => {
   const { id } = useParams();
@@ -83,6 +84,29 @@ const EventDetail = () => {
     const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
     const match = url.match(regex);
     return match ? match[1] : null;
+  };
+
+  const isIframeEmbed = (value) => typeof value === 'string' && value.toLowerCase().includes('<iframe');
+
+  const extractIframeSrc = (value) => {
+    if (!value) return null;
+    const match = value.match(/src=["']([^"']+)["']/i);
+    return match ? match[1] : null;
+  };
+
+  const ensureProtocol = (url) => {
+    if (!url) return '';
+    if (url.startsWith('//')) return `https:${url}`;
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`;
+    }
+    return url;
+  };
+
+  const isDirectVideoFile = (url) => {
+    if (!url) return false;
+    const cleanUrl = url.split('?')[0].toLowerCase();
+    return /\.(mp4|webm|ogg|mov|m4v)$/i.test(cleanUrl);
   };
 
   const formatEventDate = (dateString) => {
@@ -231,8 +255,29 @@ const EventDetail = () => {
     );
   }
 
-  const videoId = getYouTubeVideoId(event.youtubeLink);
-  const speakerNames = event?.speakers?.length ? event.speakers : ['iRiseHub Team'];
+  const videoSource = event?.youtubeLink?.trim() || '';
+  
+  // Check if video source is from a blocked host (Facebook, etc.) and skip it
+  const hostsThatBlockEmbedding = ['facebook.com', 'm.facebook.com', 'instagram.com', 'linkedin.com', 'twitter.com', 'x.com'];
+  const isBlockedHost = (() => {
+    if (!videoSource) return false;
+    try {
+      const url = new URL(videoSource.startsWith('http') ? videoSource : `https://${videoSource}`);
+      const hostname = url.hostname.replace(/^www\./, '');
+      return hostsThatBlockEmbedding.some((blockedHost) => hostname.endsWith(blockedHost));
+    } catch (error) {
+      return false;
+    }
+  })();
+  
+  // Only process if not a blocked host
+  const validVideoSource = isBlockedHost ? '' : videoSource;
+  const iframeSrc = isIframeEmbed(validVideoSource) ? extractIframeSrc(validVideoSource) : null;
+  const videoId = !iframeSrc ? getYouTubeVideoId(validVideoSource) : null;
+  const normalizedVideoUrl = !iframeSrc && !videoId && validVideoSource ? ensureProtocol(validVideoSource) : null;
+  const isDirectVideo = normalizedVideoUrl ? isDirectVideoFile(normalizedVideoUrl) : false;
+  
+  const speakerNames = getSpeakerNames(event);
   const hasMultipleSpeakers = speakerNames.length > 1;
 
   return (
@@ -250,16 +295,27 @@ const EventDetail = () => {
                 {event.eventDate ? formatEventDate(event.eventDate) : 'TBA'}
               </p>
             </div>
-            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300">
-              Event time: {event.eventTime ? formatEventTime(event.eventTime) : (event.eventDate ? formatEventTime(event.eventDate) : 'TBA')}
-            </p>
+            {event.eventTime && (
+              <p className="mt-3 sm:mt-4 text-sm sm:text-base text-gray-300">
+                Event time: {formatEventTime(event.eventTime)}
+              </p>
+            )}
           </div>
 
           {/* Video Section - Fully Responsive */}
           <div className="w-full mt-6 sm:mt-8 md:mt-10">
             <div className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl" style={{ paddingBottom: '56.25%' }}>
               {/* 16:9 Aspect Ratio Container */}
-              {videoId ? (
+              {iframeSrc ? (
+                <iframe
+                  src={ensureProtocol(iframeSrc)}
+                  title={event.title}
+                  className="absolute top-0 left-0 w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : videoId ? (
                 <iframe
                   src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&showinfo=0&controls=1&fs=1&autoplay=0&iv_load_policy=3&playlist=${videoId}`}
                   title={event.title}
@@ -268,17 +324,46 @@ const EventDetail = () => {
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
+              ) : normalizedVideoUrl ? (
+                isDirectVideo ? (
+                  <video
+                    controls
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                    poster={event.image || undefined}
+                  >
+                    <source src={normalizedVideoUrl} />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <iframe
+                    src={normalizedVideoUrl}
+                    title={event.title}
+                    className="absolute top-0 left-0 w-full h-full"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                )
               ) : event.image ? (
-                <img
-                  className="absolute top-0 left-0 w-full h-full object-cover"
-                  src={event.image}
-                  alt={event.title}
-                />
+                <div className="absolute top-0 left-0 w-full h-full">
+                  <img
+                    className="w-full h-full object-cover"
+                    src={event.image}
+                    alt={event.title}
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                    <div className="text-center">
+                      <FiPlay className="text-4xl sm:text-6xl mb-4 mx-auto text-white" />
+                      <p className="text-base sm:text-lg text-white font-semibold">Event Video Coming Soon</p>
+                      <p className="text-sm text-gray-300 mt-2">This event will have video content</p>
+                    </div>
+                  </div>
+                </div>
               ) : (
                 <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                   <div className="text-center">
                     <FiPlay className="text-4xl sm:text-6xl mb-4 mx-auto text-gray-400" />
-                    <p className="text-base sm:text-lg text-gray-400">No content available</p>
+                    <p className="text-base sm:text-lg text-gray-400">No video available for this event</p>
                   </div>
                 </div>
               )}
@@ -575,9 +660,7 @@ const EventDetail = () => {
                   <div className="flex items-center mb-2">
                     <FiUser className="text-gray-400 text-sm mr-2" />
                     <span className="text-sm text-gray-300">
-                      {relatedEvent.speakers?.length
-                        ? relatedEvent.speakers.join(', ')
-                        : 'iRiseHub Team'}
+                      {getSpeakerNames(relatedEvent).join(', ')}
                     </span>
                   </div>
                   

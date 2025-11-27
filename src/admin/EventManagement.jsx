@@ -15,7 +15,7 @@ import {
   FiClock,
   FiMapPin,
   FiUser,
-  FiYoutube
+  FiVideo
 } from 'react-icons/fi';
 import { eventAPI } from '../services/api';
 
@@ -50,6 +50,26 @@ const EventManagement = () => {
       hour += 12;
     }
     return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+  };
+
+  const ensureHttpProtocol = (url) => {
+    if (!url) return '';
+    if (url.startsWith('//')) return `https:${url}`;
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`;
+    }
+    return url;
+  };
+
+  const extractVideoLink = (value) => {
+    if (typeof value !== 'string') return '';
+    const trimmed = value.trim();
+    if (!trimmed) return '';
+    if (trimmed.toLowerCase().includes('<iframe')) {
+      const match = trimmed.match(/src=["']([^"']+)["']/i);
+      return match ? ensureHttpProtocol(match[1]) : '';
+    }
+    return ensureHttpProtocol(trimmed);
   };
 
   const [eventTimeError, setEventTimeError] = useState(false);
@@ -395,8 +415,8 @@ const EventManagement = () => {
             )}
             {event.youtubeLink && (
               <div className="flex items-center text-sm text-gray-500">
-                <FiYoutube className="w-4 h-4 mr-2" />
-                <span>YouTube Video</span>
+                <FiVideo className="w-4 h-4 mr-2" />
+                <span>Video Attached</span>
               </div>
             )}
           </div>
@@ -656,19 +676,22 @@ const EventManagement = () => {
                 />
               </div>
 
-              {/* YouTube Link */}
+              {/* Video Link / Embed */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  YouTube Link
+                  Video Link or Embed
                 </label>
-                <input
-                  type="url"
+                <textarea
                   name="youtubeLink"
                   value={formData.youtubeLink}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Enter YouTube video URL"
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-y"
+                  placeholder="Paste any video URL (YouTube, Vimeo, .mp4) or iframe embed code"
                 />
+                <p className="text-sm text-gray-500 mt-1">
+                  Supports standard links and iframe embeds. We&apos;ll auto-detect the format.
+                </p>
               </div>
 
               {/* Image Upload */}
@@ -888,19 +911,23 @@ const EventManagement = () => {
                           <span>{viewingEvent.location}</span>
                         </div>
                       )}
-                      {viewingEvent.youtubeLink && (
-                        <div className="flex items-center text-gray-700">
-                          <FiYoutube className="w-4 h-4 mr-2 text-gray-500" />
-                          <a 
-                            href={viewingEvent.youtubeLink} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
-                          >
-                            Watch on YouTube
-                          </a>
-                        </div>
-                      )}
+                      {(() => {
+                        const safeLink = extractVideoLink(viewingEvent.youtubeLink);
+                        if (!safeLink) return null;
+                        return (
+                          <div className="flex items-center text-gray-700">
+                            <FiVideo className="w-4 h-4 mr-2 text-gray-500" />
+                            <a 
+                              href={safeLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:underline"
+                            >
+                              Open Video
+                            </a>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
                 )}

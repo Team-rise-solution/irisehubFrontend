@@ -32,40 +32,14 @@ function NewsEvents() {
         const eventsResponse = await eventAPI.getAll({ limit: 1000 });
         const allEvents = eventsResponse?.data?.data || [];
         
-        // Filter for "Coming Soon" events only (show all Coming Soon events regardless of date)
-        // Admin has explicitly marked them as "Coming Soon", so we trust their choice
-        const validEvents = allEvents.filter(event => {
-          // Only show events marked as 'Coming Soon' by admin
-          return event.type === 'Coming Soon';
-        });
-        
-        eventsData = validEvents;
-        console.log('Events fetched successfully:', eventsData.length, 'items (filtered from', allEvents.length, 'total)');
+        // Show all events (both "Coming Soon" and "Past Event")
+        // This allows users to see all events in the Latest News & Events section
+        eventsData = allEvents;
+        console.log('Events fetched successfully:', eventsData.length, 'items');
         console.log('Event types breakdown:', {
           'Coming Soon': allEvents.filter(e => e.type === 'Coming Soon').length,
           'Past Event': allEvents.filter(e => e.type === 'Past Event').length
         });
-        
-        // Detailed logging for debugging
-        const comingSoonEvents = allEvents.filter(e => e.type === 'Coming Soon');
-        console.log('Coming Soon events details:', comingSoonEvents.map(e => ({
-          title: e.title,
-          type: e.type,
-          eventDate: e.eventDate,
-          eventTime: e.eventTime,
-          now: new Date().toISOString(),
-          eventDateObj: e.eventDate ? new Date(e.eventDate).toISOString() : null,
-          isFuture: e.eventDate ? (() => {
-            const eventDate = new Date(e.eventDate);
-            if (e.eventTime) {
-              const [hours, minutes] = e.eventTime.split(':');
-              eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-            } else {
-              eventDate.setHours(23, 59, 59, 999);
-            }
-            return eventDate > new Date();
-          })() : true
-        })));
       } catch (eventsError) {
         console.error('Error fetching events:', eventsError);
       }

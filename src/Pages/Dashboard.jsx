@@ -2,6 +2,7 @@ import Sidebar from "../Components/Dashboard/Sidebar";
 import { useState, useEffect } from "react";
 import { newsAPI } from "../services/api";
 import { FiEye, FiCalendar, FiUser, FiMapPin } from "react-icons/fi";
+import { getSpeakerNames } from '../utils/speakerUtils';
 
 function Dashboard (){
     const [news, setNews] = useState([]);
@@ -75,7 +76,7 @@ function Dashboard (){
                                         <div className="flex items-center space-x-4">
                                             <span className="flex items-center">
                                                 <FiUser className="w-4 h-4 mr-1" />
-                                                iRiseHub Team
+                                                {getSpeakerNames(item).join(', ')}
                                             </span>
                                             <span className="flex items-center">
                                                 <FiCalendar className="w-4 h-4 mr-1" />
