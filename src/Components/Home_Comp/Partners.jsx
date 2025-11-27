@@ -24,7 +24,7 @@ function Partners (){
       </div>
       <div className="mt-12 grid md:grid-cols-3 grid-cols-2 -ml-2 md:ml-0 gap-10   lg:grid-cols-[200px_200px_200px_200px_200px] lg:gap-[20px]">
         {partners.map((logo, index) => (
-          <div key={index} className="md:w-[200px] w-[150px] overflow-hidden h-[120px] flex justify-center px-[15px] items-center py-2 rounded-xl border-2 border-iriseColor">
+          <div key={index} className="md:w-[200px] w-[150px] overflow-hidden h-[120px] flex justify-center px-[15px] items-center py-2 rounded-xl ">
             <img className="w-full h-full transition-all hover:scale-110 ease-in-out duration-300 object-contain" src={logo} alt={`Partner-${index}`} />
           </div>
         ))}

@@ -1,5 +1,5 @@
 import EcosystemHeroImage from "../Images/Ecosystem-Images/ecosystem here img.jpeg"
-import AboutHero from "../Images/About-Images/AboutHero.jpg"
+import AboutHero from "../Images/About-Images/AboutHero.png"
 import AresWeFocusHero from "../Images/AreasWeFocus-Images/AreasWeFocusHeroImage.png"
 import CommunityHero from "../Images/Community-Images/CommunityHero.jpg"
 import StartupsHero from "../Images/StartUps-Images/StartupsHero.png"

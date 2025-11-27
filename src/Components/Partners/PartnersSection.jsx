@@ -39,40 +39,40 @@ import PartnersImage from "../../Images/Ecosystem-Images/PartnersImage-removebg-
 
 function PartnersSection() {
   const partnerLogos = [
+    UNFPA,
+    Uropean,
+    Unicef,
+    FCA,
+    SOS,
+    ICRC,
+    UNDP,
+    Netherland,
+    USEmpassy,
+    UNIDO,
+    MinisterOfYouth,
+    MinisteryOfPlanning,
+    MinisterOfEducation,
+    Banadir,
+    WorldClassScholars,
+    PremiereBank,
+    IBSBank,
+    Simad,
+    SIU,
+    Jamhuriya,
     AAMINAmbulance,
     AfriLabs,
     Ankageo,
-    Banadir,
     CircleInnovation,
     CreativeLogo,
     EYIMPACT,
-    FCA,
     Funzi,
     HIIL,
-    IBSBank,
-    ICRC,
-    Jamhuriya,
     Liquid,
-    MinisterOfEducation,
-    MinisterOfYouth,
-    MinisteryOfPlanning,
-    Netherland,
     NOA,
     PANGEA,
-    PremiereBank,
     SBSN,
-    Simad,
-    SIU,
-    SOS,
     UNHabitat,
-    UNDP,
-    UNFPA,
-    Unicef,
-    UNIDO,
-    Uropean,
-    USEmpassy,
     USAID,
-    WorldClassScholars,
   ];
 
   return (
@@ -118,7 +118,7 @@ function PartnersSection() {
       </div>
 
       {/* Partners Image Section - Bottom */}
-      <div className="max-w-7xl mx-auto mt-20 md:mt-0">
+      {/* <div className="max-w-7xl mx-auto mt-20 md:mt-0">
         <div className="flex items-center justify-center p-8 md:p-12">
           <div className="w-full max-w-3xl relative">
             <img
@@ -128,7 +128,7 @@ function PartnersSection() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
