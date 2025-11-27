@@ -56,7 +56,9 @@ const NewsDetail = () => {
       if (response.data.success) {
         const allNews = response.data.data;
         const filteredNews = allNews.filter(item => item._id !== id);
-        const sortedNews = filteredNews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const sortedNews = filteredNews.sort(
+          (a, b) => new Date(b.publishedAt || b.createdAt) - new Date(a.publishedAt || a.createdAt)
+        );
         setOtherNews(sortedNews);
       }
     } catch (error) {
@@ -65,6 +67,7 @@ const NewsDetail = () => {
   };
 
   const formatDate = (date) => {
+    if (!date) return '—';
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -160,8 +163,8 @@ const NewsDetail = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-500">Created</label>
-                      <p className="text-gray-900">{formatDate(news.createdAt)}</p>
+                      <label className="text-sm font-medium text-gray-500">Published</label>
+                      <p className="text-gray-900">{formatDate(news.publishedAt || news.createdAt)}</p>
                     </div>
                   </div>
                 </div>
@@ -207,7 +210,7 @@ const NewsDetail = () => {
                           News
                         </span>
                         <span className="ml-auto text-sm text-gray-500">
-                          {formatDate(item.createdAt)}
+                          {formatDate(item.publishedAt || item.createdAt)}
                         </span>
                       </div>
                       

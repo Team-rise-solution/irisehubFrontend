@@ -48,7 +48,15 @@ function NewsEvents() {
       const combined = [
         ...newsData.map(item => ({ ...item, contentType: 'news' })),
         ...eventsData.map(item => ({ ...item, contentType: 'event' }))
-      ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      ].sort((a, b) => {
+        const getSortDate = (entry) => {
+          if (entry.contentType === 'news') {
+            return new Date(entry.publishedAt || entry.createdAt || 0);
+          }
+          return new Date(entry.eventDate || entry.createdAt || 0);
+        };
+        return getSortDate(b) - getSortDate(a);
+      });
 
       console.log('Combined content:', combined.length, 'items');
       console.log('Content breakdown:', {
@@ -94,6 +102,7 @@ function NewsEvents() {
   };
 
   const formatDate = (date) => {
+    if (!date) return '—';
     return new Date(date).toLocaleDateString('en-GB', {
       day: '2-digit',
       month: '2-digit',
@@ -194,7 +203,7 @@ function NewsEvents() {
                 <div className="flex gap-2 items-center -ml-9 rotate-270 mt-10">
                   <FaRegCalendar className="text-[14px] group-hover:text-white rotate-90" />
                   <h1 className="text-[14px] text-black group-hover:text-white">
-                    {formatDate(item.createdAt)}
+                    {formatDate(item.contentType === 'news' ? (item.publishedAt || item.createdAt) : (item.eventDate || item.createdAt))}
                   </h1>
                 </div>
                 <div className="w-[180px] relative left-5 h-[140px]">

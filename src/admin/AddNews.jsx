@@ -6,9 +6,18 @@ import {
   FiImage,
   FiCheckCircle,
   FiXCircle,
-  FiUpload
+  FiUpload,
+  FiCalendar
 } from 'react-icons/fi';
 import { newsAPI } from '../services/api';
+
+const getLocalDatetimeString = (value = new Date()) => {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const offset = date.getTimezoneOffset();
+  const localDate = new Date(date.getTime() - offset * 60000);
+  return localDate.toISOString().slice(0, 16);
+};
 
 const AddNews = () => {
   const navigate = useNavigate();
@@ -17,7 +26,8 @@ const AddNews = () => {
     title: '',
     shortDescription: '',
     fullDescription: '',
-    image: null
+    image: null,
+    publishedAt: getLocalDatetimeString()
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -78,6 +88,11 @@ const AddNews = () => {
         newsData.append('image', formData.image);
       }
 
+      if (formData.publishedAt) {
+        const isoString = new Date(formData.publishedAt).toISOString();
+        newsData.append('publishedAt', isoString);
+      }
+
       console.log('Creating news with data:', {
         title: formData.title,
         hasImage: !!formData.image
@@ -94,7 +109,8 @@ const AddNews = () => {
           title: '',
           shortDescription: '',
           fullDescription: '',
-          image: null
+          image: null,
+          publishedAt: getLocalDatetimeString()
         });
 
         // Navigate back after 2 seconds
@@ -198,6 +214,27 @@ const AddNews = () => {
                 placeholder="Enter the full news content"
                 required
               />
+            </div>
+
+            {/* Publish Date */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Publish Date &amp; Time *
+              </label>
+              <div className="relative">
+                <FiCalendar className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="datetime-local"
+                  name="publishedAt"
+                  value={formData.publishedAt}
+                  onChange={handleInputChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Set the published timestamp (can be backdated).
+              </p>
             </div>
 
             {/* Image Upload */}

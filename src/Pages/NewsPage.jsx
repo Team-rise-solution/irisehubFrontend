@@ -32,6 +32,7 @@ const NewsPage = () => {
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return '—';
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -119,7 +120,7 @@ const NewsPage = () => {
                         <div className="flex items-center mb-4">
                           <FiCalendar className="text-gray-400 text-sm mr-2" />
                           <span className="text-sm text-gray-500">
-                            {formatDate(item.createdAt)}
+                            {formatDate(item.publishedAt || item.createdAt)}
                           </span>
                         </div>
 

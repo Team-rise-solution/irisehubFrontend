@@ -17,6 +17,14 @@ import {
 } from 'react-icons/fi';
 import { newsAPI } from '../services/api';
 
+const getLocalDatetimeString = (value = new Date()) => {
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return '';
+  const offset = date.getTimezoneOffset();
+  const localDate = new Date(date.getTime() - offset * 60000);
+  return localDate.toISOString().slice(0, 16);
+};
+
 const NewsManagement = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -29,7 +37,8 @@ const NewsManagement = () => {
     title: '',
     shortDescription: '',
     fullDescription: '',
-    image: null
+    image: null,
+    publishedAt: getLocalDatetimeString()
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -65,7 +74,8 @@ const NewsManagement = () => {
           title: news.title || '',
           shortDescription: news.shortDescription || '',
           fullDescription: news.fullDescription || '',
-          image: null // Don't pre-fill image for editing
+          image: null, // Don't pre-fill image for editing
+          publishedAt: getLocalDatetimeString(news.publishedAt || news.createdAt || new Date())
         });
         setShowForm(true);
       }
@@ -132,6 +142,13 @@ const NewsManagement = () => {
         newsData.append('image', formData.image);
       }
 
+      if (formData.publishedAt) {
+        const isoString = new Date(formData.publishedAt).toISOString();
+        newsData.append('publishedAt', isoString);
+      } else {
+        newsData.append('publishedAt', '');
+      }
+
       let response;
       if (isEditing) {
         response = await newsAPI.update(editId, newsData);
@@ -149,7 +166,8 @@ const NewsManagement = () => {
           title: '',
           shortDescription: '',
           fullDescription: '',
-          image: null
+          image: null,
+          publishedAt: getLocalDatetimeString()
         });
         
         // Refresh news list
@@ -205,6 +223,11 @@ const NewsManagement = () => {
     }
   };
 
+  const formatDisplayDate = (date) => {
+    if (!date) return '—';
+    return new Date(date).toLocaleDateString();
+  };
+
   const NewsCard = ({ news }) => (
     <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between">
@@ -214,7 +237,7 @@ const NewsManagement = () => {
             <span className="text-sm font-medium text-blue-600">News</span>
             <span className="text-sm text-gray-500">•</span>
             <span className="text-sm text-gray-500">
-              {new Date(news.createdAt).toLocaleDateString()}
+              {formatDisplayDate(news.publishedAt || news.createdAt)}
             </span>
           </div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
@@ -357,6 +380,27 @@ const NewsManagement = () => {
                   placeholder="Enter the full news content"
                   required
                 />
+              </div>
+
+              {/* Publish Date */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Publish Date &amp; Time *
+                </label>
+                <div className="relative">
+                  <FiCalendar className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="datetime-local"
+                    name="publishedAt"
+                    value={formData.publishedAt}
+                    onChange={handleInputChange}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    required
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Adjust this to publish in the past or future.
+                </p>
               </div>
 
               {/* Image Upload */}
@@ -521,7 +565,7 @@ const NewsManagement = () => {
                   </div>
                   <div className="flex items-center">
                     <FiCalendar className="w-4 h-4 mr-2" />
-                    <span>{new Date(viewingNews.createdAt).toLocaleDateString()}</span>
+                    <span>{formatDisplayDate(viewingNews.publishedAt || viewingNews.createdAt)}</span>
                   </div>
                   <div className="flex items-center">
                     <FiEye className="w-4 h-4 mr-2" />
