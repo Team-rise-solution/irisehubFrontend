@@ -41,7 +41,7 @@ function OngoingProjects() {
         {/* Section Header */}
         <div className="text-center mb-16 md:mb-20">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Ongoing Projects
+            Ongoing Programs
           </h2>
           <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto mt-6">
             Explore our upcoming initiatives that will shape the future of innovation and entrepreneurship in Somalia.
@@ -111,7 +111,7 @@ function OngoingProjects() {
                     </p>
 
                     {/* Learn More Link */}
-                    <div className="pt-4">
+                    {/* <div className="pt-4">
                       <Link
                         to="#"
                         className="inline-flex items-center gap-2 text-iriseColor font-semibold group/link hover:gap-4 transition-all duration-300"
@@ -119,7 +119,7 @@ function OngoingProjects() {
                         <span>Learn More</span>
                         <HiArrowSmRight className="text-xl transform group-hover/link:translate-x-1 transition-transform" />
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
