@@ -197,12 +197,12 @@ function NewsEvents() {
                     {formatDate(item.createdAt)}
                   </h1>
                 </div>
-                <div className="w-[180px] relative left-5 h-[140px]">
+                <div className="w-[180px] relative left-5 h-[140px] bg-gray-100 flex items-center justify-center overflow-hidden rounded-md">
                   {item.image ? (
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-cover rounded-md"
+                      className="w-full h-full object-contain rounded-md"
                     />
                   ) : (
                     <div className="w-full h-full bg-gray-200 rounded-md flex items-center justify-center">

@@ -74,11 +74,14 @@ function NewsMoreInfo({ data, onClose }) {
             {eventData.title}
           </h1>
           {eventData.image && (
-            <img
-              className="w-full h-[500px] rounded-md object-cover mt-10"
-              src={eventData.image}
-              alt={eventData.title}
-            />
+            <div className="w-full bg-gray-100 overflow-hidden mt-10" style={{ height: '500px' }}>
+              <img
+                className="w-full h-full object-cover"
+                src={eventData.image}
+                alt={eventData.title}
+                style={{ width: '100%', height: '100%', display: 'block' }}
+              />
+            </div>
           )}
           <div className="px-[50px] mt-10">
             <p className="text-white text-[18px]">

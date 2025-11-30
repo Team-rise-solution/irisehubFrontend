@@ -82,11 +82,12 @@ const PublicView = () => {
       onClick={() => handleItemClick(item)}
     >
       {getImageUrl(item) ? (
-        <div className="aspect-w-16 aspect-h-9">
+        <div className="w-full bg-gray-100 overflow-hidden" style={{ height: '250px' }}>
           <img
             src={getImageUrl(item)}
             alt={item.title}
-            className="w-full h-48 object-cover"
+            className="w-full h-full object-cover"
+            style={{ width: '100%', height: '100%', display: 'block' }}
           />
         </div>
       ) : (

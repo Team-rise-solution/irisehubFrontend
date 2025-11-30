@@ -118,13 +118,21 @@ const NewsDetail = () => {
       <Header />
       <div className="min-h-screen bg-white">
         {/* Header Section with Background Image */}
-        <div className="relative h-96 w-full">
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url(${news.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=80'})`,
-            }}
-          />
+        <div className="relative w-full bg-gray-200">
+          {news.image ? (
+            <img
+              src={news.image}
+              alt={news.title}
+              className="w-full h-auto object-contain"
+              style={{ width: '100%', display: 'block', maxHeight: '800px' }}
+            />
+          ) : (
+            <div className="w-full h-96 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+              <div className="text-center">
+                <p className="text-gray-500 text-lg">No Image Available</p>
+              </div>
+            </div>
+          )}
         </div>
             
         {/* Main Content */}
@@ -192,11 +200,12 @@ const NewsDetail = () => {
                     }}
                   >
                     {item.image && (
-                      <div className="aspect-w-16 aspect-h-9 bg-gray-200">
+                      <div className="w-full bg-gray-100 overflow-hidden" style={{ height: '300px' }}>
                         <img
                           src={Array.isArray(item.image) ? item.image[0] : item.image}
                           alt={item.title}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          style={{ width: '100%', height: '100%', display: 'block' }}
                         />
                       </div>
                     )}

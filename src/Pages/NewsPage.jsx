@@ -82,15 +82,16 @@ const NewsPage = () => {
                   <div onClick={() => handleNewsClick(item)}>
                     <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform group-hover:-translate-y-3 group-hover:scale-105">
                       {/* Cover Image */}
-                      <div className="relative aspect-w-16 aspect-h-9 overflow-hidden">
+                      <div className="relative w-full bg-gray-100 overflow-hidden" style={{ height: '350px' }}>
                         {item.image ? (
                           <img
                             src={item.image}
                             alt={item.title}
-                            className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            style={{ width: '100%', height: '100%', display: 'block' }}
                           />
                         ) : (
-                          <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                          <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                             <div className="text-center">
                               <FiImage className="text-4xl text-gray-400 mb-2" />
                               <p className="text-gray-500 text-sm">No Image</p>
